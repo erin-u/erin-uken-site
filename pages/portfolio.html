@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Protected portfolio access for Erin Uken's work samples and selected projects." />
+  <title>Portfolio | Erin Uken</title>
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-row">
+      <a class="brand" href="../index.html">Erin Uken</a>
+      <button class="menu-toggle" aria-expanded="false" aria-label="Toggle navigation">☰</button>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="about.html">About</a>
+        <a href="ai-consulting.html">AI Consulting</a>
+        <a href="real-estate.html">Real Estate</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="blog.html">Blog</a>
+        <a href="contact.html" class="cta">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="container page-header">
+      <p class="eyebrow">Portfolio</p>
+      <h1>Selected work, stories, and examples.</h1>
+      <p>Use the password entry below to view the private portfolio area. This gives you a simple, flexible place to house client-facing work, campaigns, and case studies.</p>
+    </section>
+
+    <section class="container section">
+      <div class="password-box">
+        <form id="portfolio-password-form">
+          <label for="portfolio-password">Enter access password</label>
+          <input id="portfolio-password" name="portfolio-password" type="password" placeholder="Password" />
+          <div class="button-row">
+            <button type="submit" class="primary-btn">Access Portfolio</button>
+          </div>
+          <p id="password-error" class="hidden" style="color:#b42318;margin-top:.75rem;">That password was not correct. Please try again.</p>
+        </form>
+      </div>
+
+      <div id="portfolio-content" class="hidden" style="margin-top:1rem;">
+        <div class="portfolio-list">
+          <article class="card">
+            <h3>AI consulting framework</h3>
+            <p>Sample workflow, training outline, and implementation roadmap for clients adopting AI responsibly.</p>
+          </article>
+          <article class="card">
+            <h3>Real estate marketing examples</h3>
+            <p>Showcase listing narratives, content systems, and community-driven marketing assets.</p>
+          </article>
+          <article class="card">
+            <h3>Brand storytelling portfolio</h3>
+            <p>Curated content examples that blend thought leadership, social strategy, and polished design.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-row">
+      <p>© <span id="year"></span> Erin Uken</p>
+      <div class="social-links">
+        <a href="https://www.instagram.com/erinuken/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.linkedin.com/in/erinuken/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../script.js"></script>
+</body>
+</html>

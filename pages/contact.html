@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Contact Erin Uken for consulting, real estate support, or collaboration." />
+  <title>Contact | Erin Uken</title>
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-row">
+      <a class="brand" href="../index.html">Erin Uken</a>
+      <button class="menu-toggle" aria-expanded="false" aria-label="Toggle navigation">☰</button>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="about.html">About</a>
+        <a href="ai-consulting.html">AI Consulting</a>
+        <a href="real-estate.html">Real Estate</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="blog.html">Blog</a>
+        <a href="contact.html" class="cta">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="container page-header">
+      <p class="eyebrow">Contact</p>
+      <h1>Let’s connect.</h1>
+      <p>Reach out for AI consulting, real estate support, speaking, or collaboration ideas. Social links are included below for easy follow-up.</p>
+    </section>
+
+    <section class="container section grid-2">
+      <article class="panel">
+        <h3>Connect on social</h3>
+        <p><a href="https://www.facebook.com/erin.uken" target="_blank" rel="noopener">Facebook</a></p>
+        <p><a href="https://www.instagram.com/erinuken/" target="_blank" rel="noopener">Instagram</a></p>
+        <p><a href="https://www.linkedin.com/in/erinuken/" target="_blank" rel="noopener">LinkedIn</a></p>
+        <p><a href="https://www.tiktok.com/@erin.uken" target="_blank" rel="noopener">TikTok</a></p>
+        <p><a href="https://x.com/Erin_Uken" target="_blank" rel="noopener">X</a></p>
+      </article>
+      <article class="panel">
+        <h3>Ready to start?</h3>
+        <form id="contact-form" class="form-grid">
+          <div>
+            <label for="first_name">First name</label>
+            <input id="first_name" name="first_name" placeholder="First name" required />
+          </div>
+          <div>
+            <label for="last_name">Last name</label>
+            <input id="last_name" name="last_name" placeholder="Last name" required />
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="you@example.com" required />
+          </div>
+          <div>
+            <label for="phone">Phone</label>
+            <input id="phone" name="phone" type="tel" placeholder="(555) 555-5555" />
+          </div>
+          <div>
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" placeholder="Tell me a little about what you need." required></textarea>
+          </div>
+          <div>
+            <label>
+              <input id="marketing_email_opt_in" name="marketing_email_opt_in" type="checkbox" />
+              I consent to receive marketing emails from Erin Uken.
+            </label>
+          </div>
+          <div>
+            <label>
+              <input id="marketing_text_opt_in" name="marketing_text_opt_in" type="checkbox" />
+              I consent to receive marketing text messages from Erin Uken.
+            </label>
+          </div>
+          <div>
+            <label>
+              <input id="california_opt_in" name="california_opt_in" type="checkbox" />
+              I am a California resident and I affirmatively consent to receive marketing communications from Erin Uken.
+            </label>
+          </div>
+          <div>
+            <p style="margin:0;color:var(--muted);font-size:0.92rem;">
+              By submitting this form, you consent to Erin Uken using your contact information to respond to your inquiry and, where you have opted in, to send marketing communications by email and/or text message. If you are a resident of California, your affirmative opt-in is required before marketing communications may be sent. You may unsubscribe or revoke consent at any time.
+            </p>
+          </div>
+          <div class="button-row">
+            <button type="submit" class="primary-btn">Send message</button>
+          </div>
+          <p id="form-status" aria-live="polite"></p>
+        </form>
+      </article>
+    </section>
+
+    <section class="container section">
+      <article class="panel">
+        <h3>Privacy notice and consent</h3>
+        <p>Erin Uken collects your personal information to respond to inquiries, provide services, and, where you have expressly opted in, send marketing communications. You may request access, correction, deletion, or withdrawal of consent at any time by contacting Erin Uken directly.</p>
+        <p>For California residents, marketing communications will only be sent after your affirmative opt-in has been received. Text message consent is separate from email consent and may be withdrawn at any time.</p>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-row">
+      <p>© <span id="year"></span> Erin Uken</p>
+      <div class="social-links">
+        <a href="https://www.instagram.com/erinuken/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.linkedin.com/in/erinuken/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../config.js"></script>
+  <script src="../script.js"></script>
+</body>
+</html>
