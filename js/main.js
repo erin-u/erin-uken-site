@@ -79,7 +79,7 @@
         ${it.tag ? `<span class="tag">${esc(it.tag)}</span>` : ''}
         <h3>${esc(it.title)}</h3>
         <p>${esc(it.description || '')}</p>
-        ${it.link_url ? `<a class="card-link" href="${esc(it.link_url)}" target="_blank" rel="noopener">View project</a>` : ''}
+        ${it.link_url ? `<a class="card-link" href="${esc(it.link_url)}" target="_blank" rel="noopener">${it.category === 'academic' ? 'Read' : 'View project'}</a>` : ''}
       </article>`).join('');
   }
 
