@@ -176,16 +176,44 @@
   }
 
   /* ---------------- Contacts ---------------- */
+  let contactRows = [];
   async function loadContacts() {
-    const rows = await EU.supabase.list('contact_submissions', { order: 'created_at', ascending: false });
+    contactRows = await EU.supabase.list('contact_submissions', { order: 'created_at', ascending: false });
     const tb = $('contact-rows');
-    if (!rows.length) { tb.innerHTML = '<tr><td colspan="5" class="muted">No submissions yet.</td></tr>'; return; }
-    tb.innerHTML = rows.map((c) => `<tr>
+    if (!contactRows.length) { tb.innerHTML = '<tr><td colspan="7" class="muted">No submissions yet.</td></tr>'; return; }
+    tb.innerHTML = contactRows.map((c) => `<tr>
+      <td class="muted" style="white-space:nowrap">${fmtDate(c.created_at)}</td>
       <td>${esc(c.first_name)} ${esc(c.last_name)}</td>
-      <td><a href="mailto:${esc(c.email)}">${esc(c.email)}</a><br><span class="muted">${esc(c.phone || '')}</span></td>
+      <td><a href="mailto:${esc(c.email)}">${esc(c.email)}</a></td>
+      <td style="white-space:nowrap">${esc(c.phone || '')}</td>
       <td>${esc(c.interest || '')}</td>
       <td>${esc(c.message || '')}</td>
-      <td class="muted" style="font-size:.8rem">${c.marketing_email_opt_in ? '✉️' : ''} ${c.marketing_text_opt_in ? '💬' : ''} ${c.california_opt_in ? 'CA' : ''}</td>
+      <td class="muted" style="font-size:.8rem">${c.marketing_email_opt_in ? 'Email' : ''}${c.marketing_text_opt_in ? ' · Text' : ''}${c.california_opt_in ? ' · CA' : ''}</td>
     </tr>`).join('');
   }
+
+  function fmtDate(s) {
+    if (!s) return '';
+    const d = new Date(s);
+    return d.toLocaleDateString(undefined, { year: '2-digit', month: 'short', day: 'numeric' });
+  }
+
+  // Export all contact submissions to a CSV file (importable into any CRM).
+  function exportContactsCSV() {
+    if (!contactRows.length) { alert('No submissions to export yet.'); return; }
+    const cols = ['created_at', 'first_name', 'last_name', 'email', 'phone', 'interest', 'message',
+      'marketing_email_opt_in', 'marketing_text_opt_in', 'california_opt_in'];
+    const cell = (v) => `"${String(v == null ? '' : v).replace(/"/g, '""')}"`;
+    const csv = [cols.join(',')]
+      .concat(contactRows.map((r) => cols.map((k) => cell(r[k])).join(',')))
+      .join('\r\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'erin-uken-contacts.csv';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+  const exportBtn = document.getElementById('export-contacts');
+  if (exportBtn) exportBtn.addEventListener('click', exportContactsCSV);
 })();
