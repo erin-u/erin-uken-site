@@ -58,7 +58,7 @@
       <div class="admin-tabs" role="tablist">
         <button class="active" data-tab="media">Media &amp; documents</button>
         <button data-tab="testimonials">Testimonials</button>
-        <button data-tab="portfolio">Portfolio</button>
+        <button data-tab="portfolio">Portfolio &amp; Academic</button>
         <button data-tab="contacts">Contacts</button>
       </div>
 
@@ -127,27 +127,36 @@
         </div>
       </div>
 
-      <!-- PORTFOLIO -->
+      <!-- PORTFOLIO & ACADEMIC -->
       <div class="admin-panel" id="tab-portfolio">
         <div class="card">
-          <h3>Add a portfolio item</h3>
+          <h3>Add a portfolio item or academic project</h3>
+          <p class="muted" style="margin-top:-.4rem">Pick a category: <b>Portfolio</b> items show on the Portfolio page, <b>Academic</b> ones on the Academic Projects page. Upload the image and any paper right here — no need to visit the Media tab first.</p>
           <form id="port-form" class="form-grid">
             <div class="grid grid-2" style="gap:1rem">
               <div><label for="po-title">Title</label><input id="po-title" required /></div>
-              <div><label for="po-tag">Tag</label><input id="po-tag" placeholder="AI Systems / Real Estate / Brand" /></div>
+              <div><label for="po-category">Category</label>
+                <select id="po-category"><option value="general">Portfolio</option><option value="academic">Academic project</option></select>
+              </div>
+            </div>
+            <div class="grid grid-2" style="gap:1rem">
+              <div><label for="po-tag">Tag</label><input id="po-tag" placeholder="AI Systems / Real Estate / Capstone…" /></div>
+              <div><label for="po-sort">Sort order</label><input id="po-sort" type="number" value="0" /></div>
             </div>
             <div><label for="po-desc">Description</label><textarea id="po-desc" rows="3"></textarea></div>
             <div class="grid grid-2" style="gap:1rem">
-              <div><label for="po-image">Image URL (optional)</label><input id="po-image" placeholder="Paste a media URL from above" /></div>
-              <div><label for="po-link">Project link (optional)</label><input id="po-link" placeholder="https://…" /></div>
-            </div>
-            <div class="grid grid-2" style="gap:1rem">
-              <div><label for="po-category">Category</label>
-                <select id="po-category"><option value="general">General</option><option value="academic">Academic</option></select>
+              <div>
+                <label for="po-image-file">Cover image (upload)</label>
+                <input id="po-image-file" type="file" accept="image/*" />
+                <input id="po-image" placeholder="…or paste an image URL" style="margin-top:.5rem" />
               </div>
-              <div><label for="po-sort">Sort order</label><input id="po-sort" type="number" value="0" /></div>
+              <div>
+                <label for="po-doc-file">Attachment / paper (upload, optional)</label>
+                <input id="po-doc-file" type="file" />
+                <input id="po-link" placeholder="…or paste a project / paper link" style="margin-top:.5rem" />
+              </div>
             </div>
-            <button type="submit" class="btn btn-accent">Save item</button>
+            <button type="submit" class="btn btn-accent">Save</button>
             <p id="port-status" class="status"></p>
           </form>
         </div>

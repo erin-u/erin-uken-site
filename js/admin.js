@@ -148,17 +148,32 @@
   async function onSavePortfolio(e) {
     e.preventDefault();
     const status = $('port-status');
+    status.textContent = 'Saving…'; status.className = 'status';
     try {
+      let image_url = $('po-image').value.trim() || null;
+      let link_url = $('po-link').value.trim() || null;
+      const imgFile = $('po-image-file').files[0];
+      const docFile = $('po-doc-file').files[0];
+
+      if (imgFile) {
+        status.textContent = 'Uploading image…';
+        image_url = (await EU.supabase.upload(cfg.storage.mediaBucket, imgFile)).url;
+      }
+      if (docFile) {
+        status.textContent = 'Uploading attachment…';
+        const bucket = docFile.type.startsWith('image/') ? cfg.storage.mediaBucket : cfg.storage.documentsBucket;
+        link_url = (await EU.supabase.upload(bucket, docFile)).url;
+      }
+
       await EU.supabase.insert('portfolio_items', {
         title: $('po-title').value.trim(), tag: $('po-tag').value.trim(),
-        description: $('po-desc').value.trim(), image_url: $('po-image').value.trim() || null,
-        link_url: $('po-link').value.trim() || null, category: $('po-category').value,
-        sort_order: Number($('po-sort').value) || 0
+        description: $('po-desc').value.trim(), image_url, link_url,
+        category: $('po-category').value, sort_order: Number($('po-sort').value) || 0
       });
       $('port-form').reset();
       status.textContent = 'Saved!'; status.className = 'status ok';
       loadPortfolio();
-    } catch (err) { status.textContent = err.message; status.className = 'status err'; }
+    } catch (err) { status.textContent = err.message || 'Save failed.'; status.className = 'status err'; }
   }
 
   async function loadPortfolio() {
