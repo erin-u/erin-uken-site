@@ -15,7 +15,7 @@
     ['real-estate',  'Real Estate',  'pages/real-estate.html'],
     ['coaching',     'Coaching',     'pages/coaching.html'],
     ['portfolio',    'Portfolio',    'pages/portfolio.html'],
-    ['testimonials', 'Testimonials', 'pages/testimonials.html']
+    ['bookclub',     'Book Club',    'pages/book-club.html']
   ];
 
   const SOCIAL = [

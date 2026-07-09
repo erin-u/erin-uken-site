@@ -6,8 +6,8 @@
 --------------------------------------------------------------------------- */
 window.SITE_CONFIG = {
   supabase: {
-    url: 'https://YOUR_PROJECT_REF.supabase.co',
-    anonKey: 'YOUR_SUPABASE_ANON_KEY'
+    url: 'https://nushqqvxubhfmwzmlswt.supabase.co',
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im51c2hxcXZ4dWJoZm13em1sc3d0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM2MTM5NzAsImV4cCI6MjA5OTE4OTk3MH0.pWsBkihICHz8QlNsaqIV_XjTu4TDAfW9aN5tbV0BQM8'
   },
   storage: {
     mediaBucket: 'media',       // images + videos (public)
