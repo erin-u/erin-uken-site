@@ -2,34 +2,57 @@
    Injects a single shared header + footer into every page so navigation is
    maintained in ONE place. Pages include:
      <div data-header data-active="about"></div>  ... and ... <div data-footer></div>
-   A <noscript> fallback nav lives in each page for no-JS robustness.
+   Grouped dropdown nav so the growing page set stays tidy.
 --------------------------------------------------------------------------- */
 (function () {
-  // Work out the path back to the site root ("" from root, "../" from /pages/).
   const p = location.pathname;
   const base = /\/(pages|admin)\//.test(p) ? '../' : '';
 
+  // Groups: single links have {id,label,href}; dropdowns have {label, id, children:[[id,label,href]...]}
   const NAV = [
-    ['about',        'About',        'pages/about.html'],
-    ['ai',           'AI Consulting','pages/ai-consulting.html'],
-    ['real-estate',  'Real Estate',  'pages/real-estate.html'],
-    ['coaching',     'Coaching',     'pages/coaching.html'],
-    ['portfolio',    'Portfolio',    'pages/portfolio.html'],
-    ['bookclub',     'Book Club',    'pages/book-club.html']
+    { id: 'about', label: 'About', href: 'pages/about.html' },
+    { id: 'services', label: 'Services', children: [
+      ['ai', 'AI Consulting', 'pages/ai-consulting.html'],
+      ['real-estate', 'Real Estate', 'pages/real-estate.html'],
+      ['coaching', 'Coaching', 'pages/coaching.html'],
+    ]},
+    { id: 'work', label: 'Work', children: [
+      ['portfolio', 'Portfolio', 'pages/portfolio.html'],
+      ['academic', 'Academic Projects', 'pages/academic.html'],
+      ['testimonials', 'Testimonials', 'pages/testimonials.html'],
+    ]},
+    { id: 'resources', label: 'Resources', children: [
+      ['bookclub', 'Book Club', 'pages/book-club.html'],
+      ['store', 'Store', 'pages/store.html'],
+      ['training', 'Training', 'pages/training.html'],
+    ]},
+    { id: 'partners', label: 'Partners', href: 'pages/partners.html' },
   ];
 
   const SOCIAL = [
-    ['Facebook',  'https://www.facebook.com/erin.uken'],
+    ['Facebook', 'https://www.facebook.com/erin.uken'],
     ['Instagram', 'https://www.instagram.com/erinuken/'],
-    ['LinkedIn',  'https://www.linkedin.com/in/erinuken/'],
-    ['TikTok',    'https://www.tiktok.com/@erin.uken'],
-    ['X',         'https://x.com/Erin_Uken']
+    ['LinkedIn', 'https://www.linkedin.com/in/erinuken/'],
+    ['TikTok', 'https://www.tiktok.com/@erin.uken'],
+    ['X', 'https://x.com/Erin_Uken'],
   ];
 
+  function link(id, label, href, active) {
+    return `<a href="${base}${href}"${id === active ? ' class="active"' : ''}>${label}</a>`;
+  }
+
   function headerHTML(active) {
-    const links = NAV.map(([id, label, href]) =>
-      `<a href="${base}${href}"${id === active ? ' class="active"' : ''}>${label}</a>`
-    ).join('');
+    const items = NAV.map((item) => {
+      if (item.children) {
+        const activeChild = item.children.some((c) => c[0] === active);
+        const links = item.children.map(([id, label, href]) => link(id, label, href, active)).join('');
+        return `<div class="has-dd">
+          <button class="dd-toggle${activeChild ? ' active' : ''}" aria-haspopup="true">${item.label}</button>
+          <div class="dropdown">${links}</div>
+        </div>`;
+      }
+      return link(item.id, item.label, item.href, active);
+    }).join('');
     return `
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
@@ -40,7 +63,8 @@
         </a>
         <button class="menu-toggle" aria-expanded="false" aria-label="Toggle navigation">&#9776;</button>
         <nav class="nav" aria-label="Main navigation">
-          ${links}
+          ${items}
+          <a href="${base}pages/partners.html#donate" class="donate">Donate</a>
           <a href="${base}pages/contact.html" class="cta">Contact</a>
         </nav>
       </div>
@@ -48,42 +72,33 @@
   }
 
   function footerHTML() {
-    const nav = NAV.concat([['contact','Contact','pages/contact.html']])
-      .map(([, label, href]) => `<a href="${base}${href}">${label}</a>`).join('');
+    const explore = [
+      ['About', 'pages/about.html'], ['AI Consulting', 'pages/ai-consulting.html'],
+      ['Real Estate', 'pages/real-estate.html'], ['Coaching', 'pages/coaching.html'],
+      ['Contact', 'pages/contact.html'],
+    ].map(([l, h]) => `<a href="${base}${h}">${l}</a>`).join('');
     const work = [
-      ['Portfolio','pages/portfolio.html'],
-      ['Academic Projects','pages/academic.html'],
-      ['Testimonials','pages/testimonials.html'],
-      ['eXp Realty Site','https://erinuken.exprealty.com/']
-    ].map(([label, href]) => {
-      const ext = /^https?:/.test(href);
-      return `<a href="${ext ? href : base + href}"${ext ? ' target="_blank" rel="noopener"' : ''}>${label}</a>`;
-    }).join('');
-    const social = SOCIAL.map(([label, href]) =>
-      `<a href="${href}" target="_blank" rel="noopener">${label}</a>`).join('');
+      ['Portfolio', 'pages/portfolio.html'], ['Academic Projects', 'pages/academic.html'],
+      ['Testimonials', 'pages/testimonials.html'], ['Book Club', 'pages/book-club.html'],
+      ['Store', 'pages/store.html'], ['Training', 'pages/training.html'],
+      ['Partners', 'pages/partners.html'],
+    ].map(([l, h]) => `<a href="${base}${h}">${l}</a>`).join('');
+    const social = SOCIAL.map(([l, h]) => `<a href="${h}" target="_blank" rel="noopener">${l}</a>`).join('');
+    const email = (window.SITE_CONFIG && window.SITE_CONFIG.contactEmail) || 'erin@riveracedesigns.com';
     return `
     <footer class="site-footer">
       <div class="container">
         <div class="footer-grid">
           <div class="footer-brand">
-            <a class="brand" href="${base}index.html">
-              <span class="brand-mark">EU</span>
-              <span style="color:#fff">Erin Uken</span>
-            </a>
+            <a class="brand" href="${base}index.html"><span class="brand-mark">EU</span><span style="color:#fff">Erin Uken</span></a>
             <p>Diagnose. Design. Transform. Scale. — helping growth-minded leaders build sustainable, independent businesses.</p>
             <div class="footer-social">${social}</div>
           </div>
-          <div>
-            <h4>Explore</h4>
-            ${nav}
-          </div>
-          <div>
-            <h4>Work</h4>
-            ${work}
-          </div>
+          <div><h4>Explore</h4>${explore}</div>
+          <div><h4>Work &amp; Resources</h4>${work}</div>
           <div>
             <h4>Get in touch</h4>
-            <a href="mailto:${(window.SITE_CONFIG && window.SITE_CONFIG.contactEmail) || 'erin@riveracedesigns.com'}">${(window.SITE_CONFIG && window.SITE_CONFIG.contactEmail) || 'erin@riveracedesigns.com'}</a>
+            <a href="mailto:${email}">${email}</a>
             <a href="${base}pages/contact.html">Start a conversation</a>
             <a href="https://erinuken.exprealty.com/" target="_blank" rel="noopener">Real estate with eXp</a>
           </div>

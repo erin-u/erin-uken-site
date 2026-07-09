@@ -14,7 +14,20 @@ window.SITE_CONFIG = {
     documentsBucket: 'documents' // downloadable docs (public)
   },
   // Optional: page-level fallback contact email shown in the footer.
-  contactEmail: 'erin@riveracedesigns.com'
+  contactEmail: 'erin@riveracedesigns.com',
+
+  // Lead magnets: after someone submits the contact form, a thank-you popup
+  // offers an instant resource matched to the interest they picked.
+  // Replace the '#' links with the real book/PDF/course URL for each.
+  leadMagnets: {
+    'default': { title: 'My free starter guide', url: '#' },
+    'AI consulting (Radical AI Shift)': { title: 'The Radical AI Shift — Starter Guide', url: '#' },
+    'Real estate — buying': { title: 'The Confident Buyer’s Guide', url: '#' },
+    'Real estate — selling': { title: 'The Smart Seller’s Playbook', url: '#' },
+    'Peer-to-peer coaching': { title: 'Clarity in 5 Steps — Coaching Workbook', url: '#' },
+    'Speaking / workshop': { title: 'Workshop &amp; Speaking One-Sheet', url: '#' },
+    'Collaboration / other': { title: 'My free starter guide', url: '#' }
+  }
 };
 
 // A project is "configured" only when real values have been supplied.

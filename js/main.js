@@ -138,6 +138,7 @@
         await EU.supabase.insert('contact_submissions', row);
         form.reset();
         setStatus(status, 'Thank you! Your message has been received — Erin will be in touch soon.', 'ok');
+        showThankYou(row.interest);
       } catch (err) {
         console.error(err);
         setStatus(status, 'Something went wrong sending your message. Please email ' +
@@ -173,6 +174,43 @@
         setStatus(status, 'Sorry, that didn’t go through. Please try again later.', 'err');
       }
     });
+  }
+
+  /* ---------------- Thank-you popup + instant lead magnet ---------------- */
+  function showThankYou(interest) {
+    const magnets = (window.SITE_CONFIG && window.SITE_CONFIG.leadMagnets) || {};
+    const magnet = magnets[interest] || magnets['default'] || null;
+    let overlay = document.getElementById('ty-modal');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id = 'ty-modal';
+      overlay.className = 'modal-overlay';
+      overlay.innerHTML = `
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="ty-h">
+          <button class="modal-close" aria-label="Close">&times;</button>
+          <div class="modal-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <h3 id="ty-h">Thank you!</h3>
+          <p>Your information has been received — Erin will be in touch soon.</p>
+          <div class="modal-magnet" id="ty-magnet" hidden>
+            <b id="ty-title"></b>
+            <a id="ty-link" class="btn btn-accent" target="_blank" rel="noopener">Get instant access →</a>
+          </div>
+        </div>`;
+      document.body.appendChild(overlay);
+      const close = () => overlay.classList.remove('open');
+      overlay.querySelector('.modal-close').addEventListener('click', close);
+      overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+    }
+    const magnetBox = overlay.querySelector('#ty-magnet');
+    if (magnet && magnet.url && magnet.url !== '#') {
+      overlay.querySelector('#ty-title').innerHTML = 'As a thank-you, here’s a resource for you: <br>“' + esc(magnet.title) + '”';
+      overlay.querySelector('#ty-link').href = magnet.url;
+      magnetBox.hidden = false;
+    } else {
+      magnetBox.hidden = true;
+    }
+    overlay.classList.add('open');
   }
 
   function val(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
