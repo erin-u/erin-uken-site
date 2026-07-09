@@ -3,64 +3,96 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="Testimonials, reviews, and recommendations for Erin Uken." />
+  <meta name="description" content="Testimonials, reviews, and recommendations for Erin Uken — and a place to leave your own." />
   <title>Testimonials | Erin Uken</title>
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles.css" />
 </head>
 <body>
-  <header class="site-header">
-    <div class="container header-row">
-      <a class="brand" href="../index.html">Erin Uken</a>
-      <button class="menu-toggle" aria-expanded="false" aria-label="Toggle navigation">☰</button>
-      <nav class="nav" aria-label="Main navigation">
-        <a href="about.html">About</a>
-        <a href="ai-consulting.html">AI Consulting</a>
-        <a href="real-estate.html">Real Estate</a>
-        <a href="portfolio.html">Portfolio</a>
-        <a href="blog.html">Blog</a>
-        <a href="contact.html" class="cta">Contact</a>
-      </nav>
-    </div>
-  </header>
+  <div data-header data-active="testimonials"></div>
 
-  <main>
-    <section class="container page-header">
-      <p class="eyebrow">Testimonials • Reviews • Recommendations</p>
-      <h1>Kind words and professional recommendations.</h1>
-      <p>This page is ready for your real testimonials, client quotes, and recommendation notes.</p>
+  <main id="main">
+    <section class="page-header">
+      <div class="container">
+        <p class="breadcrumb"><a href="../index.html">Home</a> / Testimonials</p>
+        <span class="eyebrow">Testimonials · Reviews · Recommendations</span>
+        <h1>Kind words and professional recommendations.</h1>
+        <p class="lead">The steadiness and the fight live just beneath the smile — here’s what that’s felt like for the people I’ve worked with.</p>
+      </div>
     </section>
 
-    <section class="container section">
-      <div class="card-grid">
-        <article class="card review-card">
-          <div class="stars" aria-label="5 star rating">★★★★★</div>
-          <p>“Erin brings warmth, clarity, and thoughtful strategy to every conversation.”</p>
-          <strong>— Featured testimonial</strong>
-        </article>
-        <article class="card review-card">
-          <div class="stars" aria-label="5 star rating">★★★★★</div>
-          <p>“A steady guide who helps people move forward with confidence and intention.”</p>
-          <strong>— Recommendation</strong>
-        </article>
-        <article class="card review-card">
-          <div class="stars" aria-label="5 star rating">★★★★★</div>
-          <p>“Professional, polished, and deeply compassionate in her approach.”</p>
-          <strong>— Client note</strong>
-        </article>
+    <section class="section">
+      <div class="container">
+        <div class="grid grid-3" data-testimonials>
+          <article class="quote">
+            <div class="stars">★★★★★</div>
+            <blockquote>“Erin brings warmth, clarity, and thoughtful strategy to every conversation.”</blockquote>
+            <div class="who"><span class="avatar">FT</span><span><b>Featured testimonial</b><span>Consulting</span></span></div>
+          </article>
+          <article class="quote">
+            <div class="stars">★★★★★</div>
+            <blockquote>“A steady guide who helps people move forward with confidence and intention.”</blockquote>
+            <div class="who"><span class="avatar">RC</span><span><b>Recommendation</b><span>Coaching</span></span></div>
+          </article>
+          <article class="quote">
+            <div class="stars">★★★★★</div>
+            <blockquote>“Professional, polished, and deeply compassionate in her approach.”</blockquote>
+            <div class="who"><span class="avatar">CN</span><span><b>Client note</b><span>Real estate</span></span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Leave a testimonial -->
+    <section class="section alt">
+      <div class="container">
+        <div class="section-head center">
+          <span class="eyebrow">Share your experience</span>
+          <h2>Leave a testimonial</h2>
+          <p>Worked with me? I’d be grateful to hear about it. Submissions are reviewed before they appear on the site.</p>
+        </div>
+        <div style="max-width:640px;margin:0 auto">
+          <form id="testimonial-form" class="card form-grid">
+            <div class="grid grid-2" style="gap:1rem">
+              <div>
+                <label for="t_author">Your name</label>
+                <input id="t_author" name="t_author" required placeholder="Jane Smith" />
+              </div>
+              <div>
+                <label for="t_role">Role / context</label>
+                <input id="t_role" name="t_role" placeholder="Small business owner" />
+              </div>
+            </div>
+            <div>
+              <label for="t_rating">Rating</label>
+              <select id="t_rating" name="t_rating">
+                <option value="5">★★★★★ — 5</option>
+                <option value="4">★★★★ — 4</option>
+                <option value="3">★★★ — 3</option>
+              </select>
+            </div>
+            <div>
+              <label for="t_quote">Your testimonial</label>
+              <textarea id="t_quote" name="t_quote" rows="4" required placeholder="Tell others what working with Erin was like."></textarea>
+            </div>
+            <div class="button-row">
+              <button type="submit" class="btn btn-accent">Submit testimonial</button>
+            </div>
+            <p id="testimonial-status" class="status" aria-live="polite"></p>
+          </form>
+        </div>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="container footer-row">
-      <p>© <span id="year"></span> Erin Uken</p>
-      <div class="social-links">
-        <a href="https://www.instagram.com/erinuken/" target="_blank" rel="noopener">Instagram</a>
-        <a href="https://www.linkedin.com/in/erinuken/" target="_blank" rel="noopener">LinkedIn</a>
-      </div>
-    </div>
-  </footer>
+  <div data-footer></div>
 
-  <script src="../script.js"></script>
+  <script src="../config.js"></script>
+  <script src="../js/supabase.js"></script>
+  <script src="../js/partials.js"></script>
+  <script src="../js/main.js"></script>
 </body>
 </html>

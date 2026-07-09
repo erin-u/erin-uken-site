@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 800" role="img" aria-label="Portrait placeholder for Erin Uken">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e9fbfb"/>
+      <stop offset="1" stop-color="#ffffff"/>
+    </linearGradient>
+    <linearGradient id="teal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#08b4b7"/>
+      <stop offset="1" stop-color="#0cc0df"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="800" fill="url(#bg)"/>
+  <circle cx="320" cy="330" r="150" fill="#f7dbe8"/>
+  <path d="M150 760c0-135 76-210 170-210s170 75 170 210" fill="url(#teal)"/>
+  <path d="M205 350c0-80 52-130 115-130s115 50 115 130" fill="#06565a"/>
+  <circle cx="320" cy="345" r="118" fill="#fceef4"/>
+  <circle cx="285" cy="335" r="9" fill="#06565a"/>
+  <circle cx="355" cy="335" r="9" fill="#06565a"/>
+  <path d="M292 390c14 16 42 16 56 0" stroke="#06565a" stroke-width="10" stroke-linecap="round" fill="none"/>
+  <circle cx="520" cy="150" r="16" fill="#e83e8c" opacity="0.9"/>
+  <circle cx="120" cy="200" r="10" fill="#08b4b7" opacity="0.7"/>
+  <text x="320" y="120" font-family="Montserrat, Arial, sans-serif" font-size="22" font-weight="700" fill="#06565a" text-anchor="middle" opacity="0.65">Add your photo here</text>
+</svg>

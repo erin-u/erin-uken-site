@@ -3,100 +3,176 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Erin Uken Admin</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Admin | Erin Uken</title>
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles.css" />
-  <style>
-    body { padding: 2rem; }
-    .admin-card { max-width: 900px; margin: 0 auto; background: white; border: 1px solid #dfe6f2; border-radius: 18px; padding: 1.5rem; box-shadow: 0 16px 40px rgba(23,32,51,.08); }
-    .admin-grid { display: grid; gap: 1rem; }
-    textarea, input { width: 100%; padding: .7rem; border-radius: 10px; border: 1px solid #dfe6f2; }
-    .muted { color: #5d6b86; }
-  </style>
 </head>
 <body>
-  <div class="admin-card">
-    <h1>Erin Uken Admin</h1>
-    <p class="muted">A lightweight admin starter for updating home content, pages, blog posts, and portfolio items.</p>
-    <div class="admin-grid">
-      <div>
-        <label for="pageTitle">Page title</label>
-        <input id="pageTitle" value="Erin Uken | AI • Real Estate • Storytelling" />
+  <header class="site-header">
+    <div class="container header-row">
+      <a class="brand" href="../index.html"><span class="brand-mark">EU</span><span>Erin Uken<small>Admin dashboard</small></span></a>
+      <div id="session-bar" class="hidden">
+        <span id="who" class="muted" style="margin-right:1rem"></span>
+        <button id="signout" class="btn btn-ghost btn-sm">Sign out</button>
       </div>
-      <div>
-        <label for="heroHeadline">Hero headline</label>
-        <input id="heroHeadline" value="Erin Uken helps people and businesses move with clarity." />
-      </div>
-      <div>
-        <label for="heroText">Hero text</label>
-        <textarea id="heroText" rows="4">Erin blends AI consulting, real estate guidance, and thoughtful storytelling into one clear digital home.</textarea>
-      </div>
-      <div>
-        <label for="aboutText">About section text</label>
-        <textarea id="aboutText" rows="5">Erin Uken is a strategist, communicator, and guide who helps people and businesses move forward with clarity.</textarea>
-      </div>
-      <div>
-        <label for="featuredTestimonial">Featured testimonial quote</label>
-        <textarea id="featuredTestimonial" rows="3">Erin brings clarity, warmth, and strategy to every conversation. She makes complex ideas feel easy to act on and meaningful to pursue.</textarea>
-      </div>
-      <div>
-        <label for="featuredAuthor">Featured testimonial author</label>
-        <input id="featuredAuthor" value="Client feedback" />
-      </div>
-      <div>
-        <label for="testimonialOne">Testimonial 1</label>
-        <textarea id="testimonialOne" rows="3">Thoughtful, organized, and deeply intentional. Her work helps people feel seen and supported.</textarea>
-      </div>
-      <div>
-        <label for="testimonialOneAuthor">Testimonial 1 author</label>
-        <input id="testimonialOneAuthor" value="Professional collaboration" />
-      </div>
-      <div>
-        <label for="testimonialTwo">Testimonial 2</label>
-        <textarea id="testimonialTwo" rows="3">A rare mix of heart and execution. The experience feels polished, personal, and grounded in trust.</textarea>
-      </div>
-      <div>
-        <label for="testimonialTwoAuthor">Testimonial 2 author</label>
-        <input id="testimonialTwoAuthor" value="Community connection" />
-      </div>
-      <button class="primary-btn" onclick="saveContent()">Save content</button>
-      <p id="adminStatus" class="muted"></p>
     </div>
+  </header>
+
+  <div class="admin-shell">
+
+    <!-- Not configured notice -->
+    <div id="not-configured" class="card hidden" style="border-color:var(--magenta)">
+      <h3>Backend not connected yet</h3>
+      <p class="muted">Add your Supabase URL and anon key in <code>config.js</code>, then run the SQL in <code>supabase/schema.sql</code> and create your admin user. Full steps are in the <b>README</b>.</p>
+    </div>
+
+    <!-- Login -->
+    <section id="login" class="hidden">
+      <div class="gate">
+        <h1>Admin sign in</h1>
+        <p class="muted">Sign in with your Supabase admin account.</p>
+        <form id="login-form" class="card form-grid" style="text-align:left;margin-top:1rem">
+          <div>
+            <label for="login-email">Email</label>
+            <input id="login-email" type="email" required autocomplete="username" />
+          </div>
+          <div>
+            <label for="login-password">Password</label>
+            <input id="login-password" type="password" required autocomplete="current-password" />
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+          <p id="login-status" class="status"></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- Dashboard -->
+    <section id="dashboard" class="hidden">
+      <h1>Manage your site</h1>
+      <p class="muted">Upload media, add testimonials and portfolio work, and review contact submissions.</p>
+
+      <div class="admin-tabs" role="tablist">
+        <button class="active" data-tab="media">Media &amp; documents</button>
+        <button data-tab="testimonials">Testimonials</button>
+        <button data-tab="portfolio">Portfolio</button>
+        <button data-tab="contacts">Contacts</button>
+      </div>
+
+      <!-- MEDIA -->
+      <div class="admin-panel active" id="tab-media">
+        <div class="card">
+          <h3>Upload documents, images &amp; video</h3>
+          <form id="upload-form" class="form-grid">
+            <div>
+              <label for="up-title">Title / caption</label>
+              <input id="up-title" placeholder="e.g. River home listing photo" />
+            </div>
+            <div class="grid grid-2" style="gap:1rem">
+              <div>
+                <label for="up-kind">Type</label>
+                <select id="up-kind">
+                  <option value="image">Image</option>
+                  <option value="video">Video</option>
+                  <option value="document">Document</option>
+                </select>
+              </div>
+              <div>
+                <label for="up-file">File</label>
+                <input id="up-file" type="file" required />
+              </div>
+            </div>
+            <label class="dropzone" id="dropzone" for="up-file">Drag &amp; drop a file here, or click to choose. Images &amp; video go to the media library; documents become downloads.</label>
+            <button type="submit" class="btn btn-accent">Upload</button>
+            <p id="upload-status" class="status"></p>
+          </form>
+        </div>
+        <div class="table-wrap" style="margin-top:1.2rem">
+          <table class="data-table">
+            <thead><tr><th>Preview</th><th>Title</th><th>Type</th><th></th></tr></thead>
+            <tbody id="media-rows"><tr><td colspan="4" class="muted">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TESTIMONIALS -->
+      <div class="admin-panel" id="tab-testimonials">
+        <div class="card">
+          <h3>Add a testimonial</h3>
+          <form id="testi-form" class="form-grid">
+            <div class="grid grid-2" style="gap:1rem">
+              <div><label for="te-author">Name</label><input id="te-author" required /></div>
+              <div><label for="te-role">Role / context</label><input id="te-role" /></div>
+            </div>
+            <div class="grid grid-2" style="gap:1rem">
+              <div><label for="te-rating">Rating</label>
+                <select id="te-rating"><option value="5">5</option><option value="4">4</option><option value="3">3</option></select>
+              </div>
+              <div><label for="te-sort">Sort order</label><input id="te-sort" type="number" value="0" /></div>
+            </div>
+            <div><label for="te-quote">Quote</label><textarea id="te-quote" rows="3" required></textarea></div>
+            <div class="checkbox-row"><input id="te-approved" type="checkbox" checked /><label for="te-approved">Approved (show on site)</label></div>
+            <button type="submit" class="btn btn-accent">Save testimonial</button>
+            <p id="testi-status" class="status"></p>
+          </form>
+        </div>
+        <div class="table-wrap" style="margin-top:1.2rem">
+          <table class="data-table">
+            <thead><tr><th>Author</th><th>Quote</th><th>Rating</th><th>Status</th><th></th></tr></thead>
+            <tbody id="testi-rows"><tr><td colspan="5" class="muted">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PORTFOLIO -->
+      <div class="admin-panel" id="tab-portfolio">
+        <div class="card">
+          <h3>Add a portfolio item</h3>
+          <form id="port-form" class="form-grid">
+            <div class="grid grid-2" style="gap:1rem">
+              <div><label for="po-title">Title</label><input id="po-title" required /></div>
+              <div><label for="po-tag">Tag</label><input id="po-tag" placeholder="AI Systems / Real Estate / Brand" /></div>
+            </div>
+            <div><label for="po-desc">Description</label><textarea id="po-desc" rows="3"></textarea></div>
+            <div class="grid grid-2" style="gap:1rem">
+              <div><label for="po-image">Image URL (optional)</label><input id="po-image" placeholder="Paste a media URL from above" /></div>
+              <div><label for="po-link">Project link (optional)</label><input id="po-link" placeholder="https://…" /></div>
+            </div>
+            <div class="grid grid-2" style="gap:1rem">
+              <div><label for="po-category">Category</label>
+                <select id="po-category"><option value="general">General</option><option value="academic">Academic</option></select>
+              </div>
+              <div><label for="po-sort">Sort order</label><input id="po-sort" type="number" value="0" /></div>
+            </div>
+            <button type="submit" class="btn btn-accent">Save item</button>
+            <p id="port-status" class="status"></p>
+          </form>
+        </div>
+        <div class="table-wrap" style="margin-top:1.2rem">
+          <table class="data-table">
+            <thead><tr><th>Title</th><th>Tag</th><th>Category</th><th></th></tr></thead>
+            <tbody id="port-rows"><tr><td colspan="4" class="muted">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- CONTACTS -->
+      <div class="admin-panel" id="tab-contacts">
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Name</th><th>Email / phone</th><th>Interest</th><th>Message</th><th>Opt-ins</th></tr></thead>
+            <tbody id="contact-rows"><tr><td colspan="5" class="muted">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
   </div>
 
-  <script>
-    function saveContent() {
-      const payload = {
-        pageTitle: document.getElementById('pageTitle').value,
-        heroHeadline: document.getElementById('heroHeadline').value,
-        heroText: document.getElementById('heroText').value,
-        aboutText: document.getElementById('aboutText').value,
-        featuredTestimonial: document.getElementById('featuredTestimonial').value,
-        featuredAuthor: document.getElementById('featuredAuthor').value,
-        testimonialOne: document.getElementById('testimonialOne').value,
-        testimonialOneAuthor: document.getElementById('testimonialOneAuthor').value,
-        testimonialTwo: document.getElementById('testimonialTwo').value,
-        testimonialTwoAuthor: document.getElementById('testimonialTwoAuthor').value
-      };
-      localStorage.setItem('erinUkenAdminContent', JSON.stringify(payload));
-      document.getElementById('adminStatus').textContent = 'Saved locally. Connect this to Supabase or your CMS later for cloud-based editing.';
-    }
-
-    window.addEventListener('DOMContentLoaded', function () {
-      const saved = localStorage.getItem('erinUkenAdminContent');
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        document.getElementById('pageTitle').value = parsed.pageTitle || '';
-        document.getElementById('heroHeadline').value = parsed.heroHeadline || '';
-        document.getElementById('heroText').value = parsed.heroText || '';
-        document.getElementById('aboutText').value = parsed.aboutText || '';
-        document.getElementById('featuredTestimonial').value = parsed.featuredTestimonial || '';
-        document.getElementById('featuredAuthor').value = parsed.featuredAuthor || '';
-        document.getElementById('testimonialOne').value = parsed.testimonialOne || '';
-        document.getElementById('testimonialOneAuthor').value = parsed.testimonialOneAuthor || '';
-        document.getElementById('testimonialTwo').value = parsed.testimonialTwo || '';
-        document.getElementById('testimonialTwoAuthor').value = parsed.testimonialTwoAuthor || '';
-      }
-    });
-  </script>
+  <script src="../config.js"></script>
+  <script src="../js/supabase.js"></script>
+  <script src="../js/admin.js"></script>
 </body>
 </html>
