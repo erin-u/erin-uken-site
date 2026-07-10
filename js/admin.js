@@ -10,6 +10,15 @@
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) =>
     ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
+  // Editing state + row caches (so an existing item can be loaded into its form).
+  const editingId = { port: null, book: null, testi: null };
+  let portCache = [], bookCache = [], testiCache = [];
+  const submitBtn = (formId) => document.querySelector('#' + formId + ' button[type="submit"]');
+  function setMode(key, formId, on) {
+    editingId[key] = on || null;
+    const b = submitBtn(formId); if (b) b.textContent = on ? 'Update' : 'Save';
+  }
+
   document.addEventListener('DOMContentLoaded', init);
 
   async function init() {
@@ -96,8 +105,17 @@
         : m.kind === 'video' ? '🎬' : '📄'}</td>
       <td>${esc(m.title)}<br><a href="${esc(m.url)}" target="_blank" rel="noopener" class="muted" style="font-size:.8rem">open</a></td>
       <td><span class="badge">${esc(m.kind)}</span></td>
-      <td><button class="btn btn-danger btn-sm" data-del-media="${m.id}" data-bucket="${esc(m.bucket)}" data-path="${esc(m.path)}">Delete</button></td>
+      <td>
+        <button class="btn btn-ghost btn-sm" data-rename-media="${m.id}" data-title="${esc(m.title || '')}">Rename</button>
+        <button class="btn btn-danger btn-sm" data-del-media="${m.id}" data-bucket="${esc(m.bucket)}" data-path="${esc(m.path)}">Delete</button>
+      </td>
     </tr>`).join('');
+    tb.querySelectorAll('[data-rename-media]').forEach((b) => b.addEventListener('click', async () => {
+      const next = prompt('Edit the title / caption:', b.dataset.title);
+      if (next == null) return;
+      await EU.supabase.upsert('media_assets', { id: b.dataset.renameMedia, title: next.trim() });
+      loadMedia();
+    }));
     tb.querySelectorAll('[data-del-media]').forEach((b) => b.addEventListener('click', async () => {
       if (!confirm('Delete this file?')) return;
       await EU.supabase.removeFile(b.dataset.bucket, b.dataset.path);
@@ -111,30 +129,43 @@
     e.preventDefault();
     const status = $('testi-status');
     try {
-      await EU.supabase.insert('testimonials', {
+      const row = {
         author: $('te-author').value.trim(), role: $('te-role').value.trim(),
         rating: Number($('te-rating').value), quote: $('te-quote').value.trim(),
         approved: $('te-approved').checked, sort_order: Number($('te-sort').value) || 0
-      });
-      $('testi-form').reset();
+      };
+      if (editingId.testi) row.id = editingId.testi;
+      await EU.supabase.upsert('testimonials', row);
+      $('testi-form').reset(); setMode('testi', 'testi-form', null);
       status.textContent = 'Saved!'; status.className = 'status ok';
       loadTestimonials();
     } catch (err) { status.textContent = err.message; status.className = 'status err'; }
   }
 
   async function loadTestimonials() {
-    const rows = await EU.supabase.list('testimonials', { order: 'sort_order' });
+    testiCache = await EU.supabase.list('testimonials', { order: 'sort_order' });
     const tb = $('testi-rows');
-    if (!rows.length) { tb.innerHTML = '<tr><td colspan="5" class="muted">No testimonials yet.</td></tr>'; return; }
-    tb.innerHTML = rows.map((t) => `<tr>
+    if (!testiCache.length) { tb.innerHTML = '<tr><td colspan="5" class="muted">No testimonials yet.</td></tr>'; return; }
+    tb.innerHTML = testiCache.map((t) => `<tr>
       <td>${esc(t.author)}<br><span class="muted" style="font-size:.8rem">${esc(t.role || '')}</span></td>
       <td>${esc(t.quote)}</td>
       <td>${'★'.repeat(t.rating || 5)}</td>
       <td>${t.approved ? '<span class="badge">live</span>' : '<span class="muted">pending</span>'}</td>
       <td>
+        <button class="btn btn-ghost btn-sm" data-edit-testi="${t.id}">Edit</button>
         <button class="btn btn-ghost btn-sm" data-toggle="${t.id}" data-approved="${t.approved ? 1 : 0}">${t.approved ? 'Unpublish' : 'Approve'}</button>
         <button class="btn btn-danger btn-sm" data-del-testi="${t.id}">Delete</button>
       </td></tr>`).join('');
+    tb.querySelectorAll('[data-edit-testi]').forEach((b) => b.addEventListener('click', () => {
+      const t = testiCache.find((x) => x.id === b.dataset.editTesti); if (!t) return;
+      $('te-author').value = t.author || ''; $('te-role').value = t.role || '';
+      $('te-rating').value = String(t.rating || 5); $('te-quote').value = t.quote || '';
+      $('te-approved').checked = !!t.approved; $('te-sort').value = t.sort_order || 0;
+      setMode('testi', 'testi-form', t.id);
+      $('testi-status').textContent = 'Editing “' + (t.author || 'testimonial') + '” — change fields and click Update.';
+      $('testi-status').className = 'status';
+      $('testi-form').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }));
     tb.querySelectorAll('[data-toggle]').forEach((b) => b.addEventListener('click', async () => {
       await EU.supabase.upsert('testimonials', { id: b.dataset.toggle, approved: b.dataset.approved !== '1' });
       loadTestimonials();
@@ -166,25 +197,41 @@
         link_url = (await EU.supabase.upload(bucket, docFile)).url;
       }
 
-      await EU.supabase.insert('portfolio_items', {
+      const row = {
         title: $('po-title').value.trim(), tag: $('po-tag').value.trim(),
         description: $('po-desc').value.trim(), image_url, link_url,
         category: $('po-category').value, sort_order: Number($('po-sort').value) || 0
-      });
-      $('port-form').reset();
+      };
+      if (editingId.port) row.id = editingId.port;
+      await EU.supabase.upsert('portfolio_items', row);
+      $('port-form').reset(); setMode('port', 'port-form', null);
       status.textContent = 'Saved!'; status.className = 'status ok';
       loadPortfolio();
     } catch (err) { status.textContent = err.message || 'Save failed.'; status.className = 'status err'; }
   }
 
   async function loadPortfolio() {
-    const rows = await EU.supabase.list('portfolio_items', { order: 'sort_order' });
+    portCache = await EU.supabase.list('portfolio_items', { order: 'sort_order' });
     const tb = $('port-rows');
-    if (!rows.length) { tb.innerHTML = '<tr><td colspan="4" class="muted">No portfolio items yet.</td></tr>'; return; }
-    tb.innerHTML = rows.map((p) => `<tr>
+    if (!portCache.length) { tb.innerHTML = '<tr><td colspan="4" class="muted">No portfolio items yet.</td></tr>'; return; }
+    tb.innerHTML = portCache.map((p) => `<tr>
       <td>${esc(p.title)}</td><td>${esc(p.tag || '')}</td><td><span class="badge">${esc(p.category || 'general')}</span></td>
-      <td><button class="btn btn-danger btn-sm" data-del-port="${p.id}">Delete</button></td>
+      <td>
+        <button class="btn btn-ghost btn-sm" data-edit-port="${p.id}">Edit</button>
+        <button class="btn btn-danger btn-sm" data-del-port="${p.id}">Delete</button>
+      </td>
     </tr>`).join('');
+    tb.querySelectorAll('[data-edit-port]').forEach((b) => b.addEventListener('click', () => {
+      const p = portCache.find((x) => x.id === b.dataset.editPort); if (!p) return;
+      $('po-title').value = p.title || ''; $('po-tag').value = p.tag || '';
+      $('po-desc').value = p.description || ''; $('po-image').value = p.image_url || '';
+      $('po-link').value = p.link_url || ''; $('po-category').value = p.category || 'general';
+      $('po-sort').value = p.sort_order || 0;
+      setMode('port', 'port-form', p.id);
+      $('port-status').textContent = 'Editing “' + (p.title || 'item') + '” — change fields and click Update.';
+      $('port-status').className = 'status';
+      $('port-form').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }));
     tb.querySelectorAll('[data-del-port]').forEach((b) => b.addEventListener('click', async () => {
       if (!confirm('Delete this item?')) return;
       await EU.supabase.remove('portfolio_items', b.dataset.delPort); loadPortfolio();
@@ -203,28 +250,44 @@
         status.textContent = 'Uploading cover…';
         image_url = (await EU.supabase.upload(cfg.storage.mediaBucket, imgFile)).url;
       }
-      await EU.supabase.insert('books', {
+      const row = {
         title: $('bk-title').value.trim(), author: $('bk-author').value.trim() || null,
         note: $('bk-note').value.trim() || null, tag: $('bk-tag').value.trim() || null,
         kind: $('bk-kind').value, image_url, buy_url: $('bk-buy').value.trim() || null,
         sort_order: Number($('bk-sort').value) || 0
-      });
-      $('book-form').reset();
+      };
+      if (editingId.book) row.id = editingId.book;
+      await EU.supabase.upsert('books', row);
+      $('book-form').reset(); setMode('book', 'book-form', null);
       status.textContent = 'Saved!'; status.className = 'status ok';
       loadBooks();
     } catch (err) { status.textContent = err.message || 'Save failed.'; status.className = 'status err'; }
   }
 
   async function loadBooks() {
-    const rows = await EU.supabase.list('books', { order: 'sort_order' });
+    bookCache = await EU.supabase.list('books', { order: 'sort_order' });
     const tb = $('book-rows');
-    if (!rows.length) { tb.innerHTML = '<tr><td colspan="4" class="muted">No books yet.</td></tr>'; return; }
-    tb.innerHTML = rows.map((b) => `<tr>
+    if (!bookCache.length) { tb.innerHTML = '<tr><td colspan="4" class="muted">No books yet.</td></tr>'; return; }
+    tb.innerHTML = bookCache.map((b) => `<tr>
       <td>${esc(b.title)}${b.author ? `<br><span class="muted" style="font-size:.8rem">by ${esc(b.author)}</span>` : ''}</td>
       <td>${b.tag ? `<span class="badge">${esc(b.tag)}</span>` : ''}</td>
       <td>${esc(b.kind || 'book')}</td>
-      <td><button class="btn btn-danger btn-sm" data-del-book="${b.id}">Delete</button></td>
+      <td>
+        <button class="btn btn-ghost btn-sm" data-edit-book="${b.id}">Edit</button>
+        <button class="btn btn-danger btn-sm" data-del-book="${b.id}">Delete</button>
+      </td>
     </tr>`).join('');
+    tb.querySelectorAll('[data-edit-book]').forEach((btn) => btn.addEventListener('click', () => {
+      const b = bookCache.find((x) => x.id === btn.dataset.editBook); if (!b) return;
+      $('bk-title').value = b.title || ''; $('bk-author').value = b.author || '';
+      $('bk-note').value = b.note || ''; $('bk-tag').value = b.tag || '';
+      $('bk-kind').value = b.kind || 'book'; $('bk-image').value = b.image_url || '';
+      $('bk-buy').value = b.buy_url || ''; $('bk-sort').value = b.sort_order || 0;
+      setMode('book', 'book-form', b.id);
+      $('book-status').textContent = 'Editing “' + (b.title || 'item') + '” — change fields and click Update.';
+      $('book-status').className = 'status';
+      $('book-form').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }));
     tb.querySelectorAll('[data-del-book]').forEach((btn) => btn.addEventListener('click', async () => {
       if (!confirm('Delete this book?')) return;
       await EU.supabase.remove('books', btn.dataset.delBook); loadBooks();
