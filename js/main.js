@@ -44,7 +44,114 @@
     hydrateBooks();
     wireContactForm();
     wireTestimonialForm();
+    initInlineEditor();
   });
+
+  /* ---------------- Inline page editor (admin only) ---------------- *
+   * Every text element in <main> becomes editable in place when the site
+   * owner is logged in. Overrides are stored in the `site_content` table
+   * keyed by page + a hash of the original text, and re-applied on load.   */
+  const EDIT_SEL = 'h1,h2,h3,h4,p,li,blockquote,.eyebrow,.tagline,.kicker,.price,.stat-label,.stat-num,.book-author,figcaption,.card-link,a.btn,.signature .name,.signature .role';
+  const SKIP_INSIDE = '[data-testimonials],[data-portfolio],[data-books],[data-products],[data-gallery],[data-documents],[data-book-filters],#ty-modal,.eu-editbar';
+
+  function pageKey() { return location.pathname.replace(/index\.html$/, '').replace(/\/$/, '') || '/'; }
+  function hash(s) { let h = 5381; for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0; return (h >>> 0).toString(36); }
+
+  function editableEls() {
+    const main = document.getElementById('main') || document.querySelector('main');
+    if (!main) return [];
+    const seen = {};
+    return Array.from(main.querySelectorAll(EDIT_SEL)).filter((el) => {
+      if (el.closest(SKIP_INSIDE)) return false;
+      if (el.querySelector(EDIT_SEL)) return false;            // skip containers of other editables
+      const t = (el.textContent || '').trim();
+      if (!t) return false;
+      const key = pageKey() + '|' + el.tagName + '|' + hash(t);
+      seen[key] = (seen[key] || 0) + 1;
+      el.dataset.eukey = seen[key] > 1 ? key + '~' + seen[key] : key;
+      el.dataset.euorig = t;
+      return true;
+    });
+  }
+
+  async function initInlineEditor() {
+    if (!EU.supabase || !EU.supabase.configured()) return;
+    const els = editableEls();
+    if (!els.length) return;
+
+    // Apply saved overrides for everyone.
+    try {
+      const rows = await EU.supabase.list('site_content', { order: 'key' });
+      const map = {};
+      rows.forEach((r) => { map[r.key] = r.value; });
+      els.forEach((el) => { if (map[el.dataset.eukey] != null) el.textContent = map[el.dataset.eukey]; });
+    } catch (e) { /* table may not exist yet — ignore */ }
+
+    // Show the edit button only to a logged-in owner.
+    if (!hasAuthToken()) return;
+    const user = await EU.supabase.currentUser().catch(() => null);
+    if (!user) return;
+    mountEditFab(els);
+  }
+
+  function hasAuthToken() {
+    try { for (let i = 0; i < localStorage.length; i++) { if (/^sb-.*-auth-token$/.test(localStorage.key(i))) return true; } } catch (e) {}
+    return false;
+  }
+
+  function mountEditFab(els) {
+    const fab = document.createElement('button');
+    fab.className = 'eu-edit-fab';
+    fab.innerHTML = '✏️ Edit this page';
+    document.body.appendChild(fab);
+    let editing = false, bar = null;
+    const linkGuard = (e) => { if (editing && e.target.closest('a')) e.preventDefault(); };
+    document.addEventListener('click', linkGuard, true);
+
+    fab.addEventListener('click', () => {
+      editing = !editing;
+      document.body.classList.toggle('eu-editing', editing);
+      els.forEach((el) => { el.contentEditable = editing ? 'true' : 'false'; });
+      if (editing) {
+        fab.style.display = 'none';
+        bar = document.createElement('div');
+        bar.className = 'eu-editbar';
+        bar.innerHTML = '<span>Editing — click any text to change it.</span>' +
+          '<button class="btn btn-accent" data-save>Save changes</button>' +
+          '<button class="btn btn-ghost" data-cancel>Cancel</button>';
+        document.body.appendChild(bar);
+        bar.querySelector('[data-save]').addEventListener('click', () => saveEdits(els, bar, fab));
+        bar.querySelector('[data-cancel]').addEventListener('click', () => location.reload());
+      }
+    });
+  }
+
+  async function saveEdits(els, bar, fab) {
+    const btn = bar.querySelector('[data-save]');
+    btn.textContent = 'Saving…'; btn.disabled = true;
+    try {
+      const changed = els.filter((el) => (el.textContent || '').trim() !== el.dataset.euorig ||
+        el.dataset.eusaved === '1');
+      for (const el of changed) {
+        await EU.supabase.upsert('site_content', { key: el.dataset.eukey, value: (el.textContent || '').trim() });
+        el.dataset.eusaved = '1';
+      }
+      toast('Saved! Your changes are live.');
+      els.forEach((el) => { el.contentEditable = 'false'; });
+      document.body.classList.remove('eu-editing');
+      bar.remove(); fab.style.display = '';
+    } catch (e) {
+      btn.textContent = 'Save changes'; btn.disabled = false;
+      toast('Could not save: ' + (e.message || 'error') + '. Did you run the site_content SQL?');
+    }
+  }
+
+  function toast(msg) {
+    const t = document.createElement('div');
+    t.className = 'eu-toast'; t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 4000);
+  }
 
   /* ---------------- Book Club (tag-filterable) ---------------- */
   async function hydrateBooks() {
