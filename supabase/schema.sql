@@ -44,6 +44,12 @@ create table if not exists public.portfolio_items (
   created_at timestamptz default now()
 );
 
+create table if not exists public.site_content (
+  key text primary key,     -- page + hash of original text (managed by the inline editor)
+  value text,
+  updated_at timestamptz default now()
+);
+
 create table if not exists public.books (
   id uuid primary key default gen_random_uuid(),
   title text not null,
@@ -74,9 +80,13 @@ alter table public.testimonials       enable row level security;
 alter table public.portfolio_items    enable row level security;
 alter table public.media_assets        enable row level security;
 alter table public.books               enable row level security;
+alter table public.site_content        enable row level security;
 
 create policy "books read (public)"   on public.books for select to anon, authenticated using (true);
 create policy "books manage (admin)"  on public.books for all    to authenticated using (true) with check (true);
+
+create policy "content read (public)" on public.site_content for select to anon, authenticated using (true);
+create policy "content manage (admin)" on public.site_content for all   to authenticated using (true) with check (true);
 
 -- Contact: anyone may submit; only signed-in admins may read/manage.
 create policy "contact insert (public)"  on public.contact_submissions for insert to anon, authenticated with check (true);
