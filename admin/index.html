@@ -15,8 +15,9 @@
   <header class="site-header">
     <div class="container header-row">
       <a class="brand" href="../index.html"><span class="brand-mark">EU</span><span>Erin Uken<small>Admin dashboard</small></span></a>
-      <div id="session-bar" class="hidden">
-        <span id="who" class="muted" style="margin-right:1rem"></span>
+      <div id="session-bar" class="hidden" style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
+        <span id="who" class="muted"></span>
+        <a href="../index.html" class="btn btn-outline btn-sm">View site &amp; edit pages →</a>
         <button id="signout" class="btn btn-ghost btn-sm">Sign out</button>
       </div>
     </div>
@@ -53,7 +54,10 @@
     <!-- Dashboard -->
     <section id="dashboard" class="hidden">
       <h1>Manage your site</h1>
-      <p class="muted">Upload media, add testimonials and portfolio work, and review contact submissions.</p>
+      <p class="muted">Upload media, add testimonials, portfolio, and books, and review contact submissions.</p>
+      <div class="card" style="border-color:var(--teal);background:rgba(8,180,183,.05);margin-bottom:.5rem">
+        <b>✏️ To edit the wording on any page:</b> click <b>“View site &amp; edit pages →”</b> above, open any page, then click the <b>Edit this page</b> button at the bottom-right. Change the text right on the page and Save.
+      </div>
 
       <div class="admin-tabs" role="tablist">
         <button class="active" data-tab="media">Media &amp; documents</button>
