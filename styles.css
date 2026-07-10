@@ -380,6 +380,8 @@ input:focus, textarea:focus, select:focus { outline: none; border-color: var(--t
 .eu-edit-fab:hover { background: var(--teal-ink); }
 body.eu-editing [data-eukey] { outline: 2px dashed var(--teal); outline-offset: 3px; border-radius: 3px; cursor: text; }
 body.eu-editing [data-eukey]:focus { outline: 2px solid var(--magenta); background: rgba(232,62,140,.05); }
+img.eu-img { outline: 3px dashed var(--magenta); outline-offset: 3px; cursor: pointer; }
+img.eu-img:hover { outline-style: solid; filter: brightness(.9); }
 .eu-editbar {
   position: fixed; bottom: 0; left: 0; right: 0; z-index: 300;
   background: var(--ink); color: #fff; padding: .9rem 1.2rem;

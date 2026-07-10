@@ -51,7 +51,7 @@
    * Every text element in <main> becomes editable in place when the site
    * owner is logged in. Overrides are stored in the `site_content` table
    * keyed by page + a hash of the original text, and re-applied on load.   */
-  const EDIT_SEL = 'h1,h2,h3,h4,p,li,blockquote,.eyebrow,.tagline,.kicker,.price,.stat-label,.stat-num,.book-author,figcaption,.card-link,a.btn,.signature .name,.signature .role';
+  const EDIT_SEL = 'h1,h2,h3,h4,p,li,blockquote,.eyebrow,.tagline,.kicker,.price,.stat-label,.stat-num,.book-author,figcaption,.card-link,a.btn,.signature .name,.signature .role,.hero-trust span,.facts span,.value-line .row b,.value-line .row span,.cred b,.cred span';
   const SKIP_INSIDE = '[data-testimonials],[data-portfolio],[data-books],[data-products],[data-gallery],[data-documents],[data-book-filters],#ty-modal,.eu-editbar';
 
   function pageKey() { return location.pathname.replace(/index\.html$/, '').replace(/\/$/, '') || '/'; }
@@ -74,10 +74,24 @@
     });
   }
 
+  function editableImgs() {
+    const main = document.getElementById('main') || document.querySelector('main');
+    if (!main) return [];
+    return Array.from(main.querySelectorAll('img')).filter((img) => {
+      if (img.closest(SKIP_INSIDE)) return false;
+      const src = img.getAttribute('src') || '';
+      if (!src) return false;
+      img.dataset.eukey = pageKey() + '|IMG|' + hash(src);
+      img.dataset.euorig = src;
+      return true;
+    });
+  }
+
   async function initInlineEditor() {
     if (!EU.supabase || !EU.supabase.configured()) return;
     const els = editableEls();
-    if (!els.length) return;
+    const imgs = editableImgs();
+    if (!els.length && !imgs.length) return;
 
     // Apply saved overrides for everyone.
     try {
@@ -85,13 +99,14 @@
       const map = {};
       rows.forEach((r) => { map[r.key] = r.value; });
       els.forEach((el) => { if (map[el.dataset.eukey] != null) el.textContent = map[el.dataset.eukey]; });
+      imgs.forEach((img) => { if (map[img.dataset.eukey] != null) img.src = map[img.dataset.eukey]; });
     } catch (e) { /* table may not exist yet — ignore */ }
 
     // Show the edit button only to a logged-in owner.
     if (!hasAuthToken()) return;
     const user = await EU.supabase.currentUser().catch(() => null);
     if (!user) return;
-    mountEditFab(els);
+    mountEditFab(els, imgs);
   }
 
   function hasAuthToken() {
@@ -99,45 +114,77 @@
     return false;
   }
 
-  function mountEditFab(els) {
+  function mountEditFab(els, imgs) {
     const fab = document.createElement('button');
     fab.className = 'eu-edit-fab';
     fab.innerHTML = '✏️ Edit this page';
     document.body.appendChild(fab);
     let editing = false, bar = null;
-    const linkGuard = (e) => { if (editing && e.target.closest('a')) e.preventDefault(); };
-    document.addEventListener('click', linkGuard, true);
+
+    // Hidden file picker for swapping photos.
+    const picker = document.createElement('input');
+    picker.type = 'file'; picker.accept = 'image/*'; picker.style.display = 'none';
+    document.body.appendChild(picker);
+    let targetImg = null;
+    picker.addEventListener('change', async () => {
+      const file = picker.files[0]; picker.value = '';
+      if (!file || !targetImg) return;
+      toast('Uploading photo…');
+      try {
+        const up = await EU.supabase.upload((window.SITE_CONFIG.storage || {}).mediaBucket || 'media', file);
+        targetImg.src = up.url; targetImg.setAttribute('src', up.url);
+      } catch (e) { toast('Upload failed: ' + (e.message || 'error')); }
+      targetImg = null;
+    });
+
+    const guard = (e) => {
+      if (!editing) return;
+      const img = e.target.closest && e.target.closest('img[data-eukey]');
+      if (img) { e.preventDefault(); e.stopPropagation(); targetImg = img; picker.click(); return; }
+      if (e.target.closest('a')) e.preventDefault();
+    };
+    document.addEventListener('click', guard, true);
 
     fab.addEventListener('click', () => {
       editing = !editing;
       document.body.classList.toggle('eu-editing', editing);
       els.forEach((el) => { el.contentEditable = editing ? 'true' : 'false'; });
+      imgs.forEach((img) => img.classList.toggle('eu-img', editing));
       if (editing) {
         fab.style.display = 'none';
         bar = document.createElement('div');
         bar.className = 'eu-editbar';
-        bar.innerHTML = '<span>Editing — click any text to change it.</span>' +
+        bar.innerHTML = '<span>Editing — click text to change it, or click a photo to replace it.</span>' +
           '<button class="btn btn-accent" data-save>Save changes</button>' +
           '<button class="btn btn-ghost" data-cancel>Cancel</button>';
         document.body.appendChild(bar);
-        bar.querySelector('[data-save]').addEventListener('click', () => saveEdits(els, bar, fab));
+        bar.querySelector('[data-save]').addEventListener('click', () => saveEdits(els, imgs, bar, fab));
         bar.querySelector('[data-cancel]').addEventListener('click', () => location.reload());
       }
     });
   }
 
-  async function saveEdits(els, bar, fab) {
+  async function saveEdits(els, imgs, bar, fab) {
     const btn = bar.querySelector('[data-save]');
     btn.textContent = 'Saving…'; btn.disabled = true;
     try {
-      const changed = els.filter((el) => (el.textContent || '').trim() !== el.dataset.euorig ||
-        el.dataset.eusaved === '1');
-      for (const el of changed) {
-        await EU.supabase.upsert('site_content', { key: el.dataset.eukey, value: (el.textContent || '').trim() });
-        el.dataset.eusaved = '1';
+      for (const el of els) {
+        const v = (el.textContent || '').trim();
+        if (v !== el.dataset.euorig || el.dataset.eusaved === '1') {
+          await EU.supabase.upsert('site_content', { key: el.dataset.eukey, value: v });
+          el.dataset.eusaved = '1';
+        }
+      }
+      for (const img of imgs) {
+        const v = img.getAttribute('src') || '';
+        if (v !== img.dataset.euorig || img.dataset.eusaved === '1') {
+          await EU.supabase.upsert('site_content', { key: img.dataset.eukey, value: v });
+          img.dataset.eusaved = '1';
+        }
       }
       toast('Saved! Your changes are live.');
       els.forEach((el) => { el.contentEditable = 'false'; });
+      imgs.forEach((img) => img.classList.remove('eu-img'));
       document.body.classList.remove('eu-editing');
       bar.remove(); fab.style.display = '';
     } catch (e) {
