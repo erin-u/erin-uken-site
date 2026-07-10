@@ -44,6 +44,19 @@ create table if not exists public.portfolio_items (
   created_at timestamptz default now()
 );
 
+create table if not exists public.books (
+  id uuid primary key default gen_random_uuid(),
+  title text not null,
+  author text,
+  note text,
+  tag text,                 -- free-form: Self Help, Grief, Business, AI, Academic, etc.
+  kind text default 'book', -- 'book' or 'product'
+  image_url text,
+  buy_url text,
+  sort_order int default 0,
+  created_at timestamptz default now()
+);
+
 create table if not exists public.media_assets (
   id uuid primary key default gen_random_uuid(),
   title text,
@@ -60,6 +73,10 @@ alter table public.contact_submissions enable row level security;
 alter table public.testimonials       enable row level security;
 alter table public.portfolio_items    enable row level security;
 alter table public.media_assets        enable row level security;
+alter table public.books               enable row level security;
+
+create policy "books read (public)"   on public.books for select to anon, authenticated using (true);
+create policy "books manage (admin)"  on public.books for all    to authenticated using (true) with check (true);
 
 -- Contact: anyone may submit; only signed-in admins may read/manage.
 create policy "contact insert (public)"  on public.contact_submissions for insert to anon, authenticated with check (true);

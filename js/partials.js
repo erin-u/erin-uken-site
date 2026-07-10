@@ -8,9 +8,12 @@
   const p = location.pathname;
   const base = /\/(pages|admin)\//.test(p) ? '../' : '';
 
-  // Groups: single links have {id,label,href}; dropdowns have {label, id, children:[[id,label,href]...]}
+  // Single links: {id,label,href,soon?}; dropdowns: {id,label,children:[[id,label,href]...]}
   const NAV = [
-    { id: 'about', label: 'About', href: 'pages/about.html' },
+    { id: 'about', label: 'About', children: [
+      ['about', 'About Me', 'pages/about.html'],
+      ['degrees', 'Degrees & Certifications', 'pages/about.html#degrees'],
+    ]},
     { id: 'services', label: 'Services', children: [
       ['ai', 'AI Consulting', 'pages/ai-consulting.html'],
       ['real-estate', 'Real Estate', 'pages/real-estate.html'],
@@ -21,12 +24,9 @@
       ['academic', 'Academic Projects', 'pages/academic.html'],
       ['testimonials', 'Testimonials', 'pages/testimonials.html'],
     ]},
-    { id: 'resources', label: 'Resources', children: [
-      ['bookclub', 'Book Club', 'pages/book-club.html'],
-      ['store', 'Store', 'pages/store.html'],
-      ['training', 'Training', 'pages/training.html'],
-    ]},
-    { id: 'partners', label: 'Partners', href: 'pages/partners.html' },
+    { id: 'bookclub', label: 'Book Club', href: 'pages/book-club.html' },
+    { id: 'store', label: 'Store', href: 'pages/store.html', soon: true },
+    { id: 'training', label: 'Training', href: 'pages/training.html', soon: true },
   ];
 
   const SOCIAL = [
@@ -37,8 +37,9 @@
     ['X', 'https://x.com/Erin_Uken'],
   ];
 
-  function link(id, label, href, active) {
-    return `<a href="${base}${href}"${id === active ? ' class="active"' : ''}>${label}</a>`;
+  function link(id, label, href, active, soon) {
+    const badge = soon ? ' <span class="nav-soon">soon</span>' : '';
+    return `<a href="${base}${href}"${id === active ? ' class="active"' : ''}>${label}${badge}</a>`;
   }
 
   function headerHTML(active) {
@@ -51,7 +52,7 @@
           <div class="dropdown">${links}</div>
         </div>`;
       }
-      return link(item.id, item.label, item.href, active);
+      return link(item.id, item.label, item.href, active, item.soon);
     }).join('');
     return `
     <a class="skip-link" href="#main">Skip to content</a>
