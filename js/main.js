@@ -41,9 +41,53 @@
     hydrateTestimonials();
     hydratePortfolio();
     hydrateGalleries();
+    hydrateBooks();
     wireContactForm();
     wireTestimonialForm();
   });
+
+  /* ---------------- Book Club (tag-filterable) ---------------- */
+  async function hydrateBooks() {
+    const bookMount = document.querySelector('[data-books]');
+    const prodMount = document.querySelector('[data-products]');
+    const filterMount = document.querySelector('[data-book-filters]');
+    if ((!bookMount && !prodMount) || !EU.supabase || !EU.supabase.configured()) return;
+    const rows = await EU.supabase.list('books', { order: 'sort_order' });
+    if (!rows.length) return;
+    const books = rows.filter((b) => (b.kind || 'book') === 'book');
+    const products = rows.filter((b) => b.kind === 'product');
+
+    function card(b) {
+      return `<article class="book">
+        <div class="book-cover">${b.image_url ? `<img src="${esc(b.image_url)}" alt="${esc(b.title)}" loading="lazy">` : esc(b.title)}</div>
+        <div class="book-body">
+          ${b.tag ? `<span class="tag">${esc(b.tag)}</span>` : ''}
+          <h3>${esc(b.title)}</h3>
+          ${b.author ? `<p class="book-author">by ${esc(b.author)}</p>` : ''}
+          ${b.note ? `<p>${esc(b.note)}</p>` : ''}
+          ${b.buy_url ? `<a class="btn ${b.kind === 'product' ? 'btn-outline' : 'btn-accent'} btn-sm" href="${esc(b.buy_url)}" target="_blank" rel="noopener sponsored">${b.kind === 'product' ? 'View' : 'Buy'} →</a>` : ''}
+        </div>
+      </article>`;
+    }
+    const render = (list) => { bookMount.innerHTML = list.length ? list.map(card).join('') : '<p class="muted">No books in this category yet.</p>'; };
+
+    if (bookMount && books.length) render(books);
+    if (prodMount && products.length) prodMount.innerHTML = products.map(card).join('');
+
+    if (filterMount && bookMount && books.length) {
+      const tags = Array.from(new Set(books.map((b) => b.tag).filter(Boolean))).sort();
+      if (tags.length) {
+        filterMount.innerHTML = ['All'].concat(tags).map((t, i) =>
+          `<button class="chip${i === 0 ? ' active' : ''}" data-tag="${esc(t)}">${esc(t)}</button>`).join('');
+        filterMount.querySelectorAll('.chip').forEach((ch) => ch.addEventListener('click', () => {
+          filterMount.querySelectorAll('.chip').forEach((c) => c.classList.remove('active'));
+          ch.classList.add('active');
+          const t = ch.getAttribute('data-tag');
+          render(t === 'All' ? books : books.filter((b) => b.tag === t));
+        }));
+      }
+    }
+  }
 
   /* ---------------- Testimonials ---------------- */
   async function hydrateTestimonials() {

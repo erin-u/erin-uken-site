@@ -34,6 +34,7 @@
     $('upload-form').addEventListener('submit', onUpload);
     $('testi-form').addEventListener('submit', onSaveTestimonial);
     $('port-form').addEventListener('submit', onSavePortfolio);
+    $('book-form').addEventListener('submit', onSaveBook);
 
     // Dropzone visuals
     const dz = $('dropzone'), fileInput = $('up-file');
@@ -60,7 +61,7 @@
     show('dashboard');
     $('session-bar').classList.remove('hidden');
     $('who').textContent = user && user.email ? user.email : 'Signed in';
-    loadMedia(); loadTestimonials(); loadPortfolio(); loadContacts();
+    loadMedia(); loadTestimonials(); loadPortfolio(); loadBooks(); loadContacts();
   }
 
   /* ---------------- Media ---------------- */
@@ -187,6 +188,46 @@
     tb.querySelectorAll('[data-del-port]').forEach((b) => b.addEventListener('click', async () => {
       if (!confirm('Delete this item?')) return;
       await EU.supabase.remove('portfolio_items', b.dataset.delPort); loadPortfolio();
+    }));
+  }
+
+  /* ---------------- Book Club ---------------- */
+  async function onSaveBook(e) {
+    e.preventDefault();
+    const status = $('book-status');
+    status.textContent = 'Saving…'; status.className = 'status';
+    try {
+      let image_url = $('bk-image').value.trim() || null;
+      const imgFile = $('bk-image-file').files[0];
+      if (imgFile) {
+        status.textContent = 'Uploading cover…';
+        image_url = (await EU.supabase.upload(cfg.storage.mediaBucket, imgFile)).url;
+      }
+      await EU.supabase.insert('books', {
+        title: $('bk-title').value.trim(), author: $('bk-author').value.trim() || null,
+        note: $('bk-note').value.trim() || null, tag: $('bk-tag').value.trim() || null,
+        kind: $('bk-kind').value, image_url, buy_url: $('bk-buy').value.trim() || null,
+        sort_order: Number($('bk-sort').value) || 0
+      });
+      $('book-form').reset();
+      status.textContent = 'Saved!'; status.className = 'status ok';
+      loadBooks();
+    } catch (err) { status.textContent = err.message || 'Save failed.'; status.className = 'status err'; }
+  }
+
+  async function loadBooks() {
+    const rows = await EU.supabase.list('books', { order: 'sort_order' });
+    const tb = $('book-rows');
+    if (!rows.length) { tb.innerHTML = '<tr><td colspan="4" class="muted">No books yet.</td></tr>'; return; }
+    tb.innerHTML = rows.map((b) => `<tr>
+      <td>${esc(b.title)}${b.author ? `<br><span class="muted" style="font-size:.8rem">by ${esc(b.author)}</span>` : ''}</td>
+      <td>${b.tag ? `<span class="badge">${esc(b.tag)}</span>` : ''}</td>
+      <td>${esc(b.kind || 'book')}</td>
+      <td><button class="btn btn-danger btn-sm" data-del-book="${b.id}">Delete</button></td>
+    </tr>`).join('');
+    tb.querySelectorAll('[data-del-book]').forEach((btn) => btn.addEventListener('click', async () => {
+      if (!confirm('Delete this book?')) return;
+      await EU.supabase.remove('books', btn.dataset.delBook); loadBooks();
     }));
   }
 

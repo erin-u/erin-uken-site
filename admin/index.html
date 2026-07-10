@@ -59,6 +59,7 @@
         <button class="active" data-tab="media">Media &amp; documents</button>
         <button data-tab="testimonials">Testimonials</button>
         <button data-tab="portfolio">Portfolio &amp; Academic</button>
+        <button data-tab="books">Book Club</button>
         <button data-tab="contacts">Contacts</button>
       </div>
 
@@ -164,6 +165,48 @@
           <table class="data-table">
             <thead><tr><th>Title</th><th>Tag</th><th>Category</th><th></th></tr></thead>
             <tbody id="port-rows"><tr><td colspan="4" class="muted">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- BOOK CLUB -->
+      <div class="admin-panel" id="tab-books">
+        <div class="card">
+          <h3>Add a book or product</h3>
+          <p class="muted" style="margin-top:-.4rem">Use any <b>tag</b> you like (Self Help, Grief, Business, AI, Storytelling, Academic, Sales…) — make them up as you go. Visitors can filter by tag on the Book Club page.</p>
+          <form id="book-form" class="form-grid">
+            <div class="grid grid-2" style="gap:1rem">
+              <div><label for="bk-title">Title</label><input id="bk-title" required /></div>
+              <div><label for="bk-author">Author (optional)</label><input id="bk-author" /></div>
+            </div>
+            <div class="grid grid-2" style="gap:1rem">
+              <div><label for="bk-tag">Tag</label><input id="bk-tag" placeholder="e.g. Self Help, Business, AI" /></div>
+              <div><label for="bk-kind">Type</label>
+                <select id="bk-kind"><option value="book">Book</option><option value="product">Product / tool</option></select>
+              </div>
+            </div>
+            <div><label for="bk-note">Short note (why you recommend it)</label><textarea id="bk-note" rows="2"></textarea></div>
+            <div class="grid grid-2" style="gap:1rem">
+              <div>
+                <label for="bk-image-file">Cover image (upload)</label>
+                <input id="bk-image-file" type="file" accept="image/*" />
+                <input id="bk-image" placeholder="…or paste an image URL" style="margin-top:.5rem" />
+              </div>
+              <div>
+                <label for="bk-buy">Buy / affiliate link</label>
+                <input id="bk-buy" placeholder="https://www.amazon.com/dp/…?tag=yourtag-20" />
+                <label for="bk-sort" style="margin-top:.5rem">Sort order</label>
+                <input id="bk-sort" type="number" value="0" />
+              </div>
+            </div>
+            <button type="submit" class="btn btn-accent">Save</button>
+            <p id="book-status" class="status"></p>
+          </form>
+        </div>
+        <div class="table-wrap" style="margin-top:1.2rem">
+          <table class="data-table">
+            <thead><tr><th>Title</th><th>Tag</th><th>Type</th><th></th></tr></thead>
+            <tbody id="book-rows"><tr><td colspan="4" class="muted">Loading…</td></tr></tbody>
           </table>
         </div>
       </div>
