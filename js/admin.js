@@ -11,8 +11,8 @@
     ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
   // Editing state + row caches (so an existing item can be loaded into its form).
-  const editingId = { port: null, book: null, testi: null };
-  let portCache = [], bookCache = [], testiCache = [];
+  const editingId = { port: null, book: null, testi: null, train: null };
+  let portCache = [], bookCache = [], testiCache = [], trainCache = [];
   const submitBtn = (formId) => document.querySelector('#' + formId + ' button[type="submit"]');
   function setMode(key, formId, on) {
     editingId[key] = on || null;
@@ -44,6 +44,7 @@
     $('testi-form').addEventListener('submit', onSaveTestimonial);
     $('port-form').addEventListener('submit', onSavePortfolio);
     $('book-form').addEventListener('submit', onSaveBook);
+    $('train-form').addEventListener('submit', onSaveTraining);
 
     // Dropzone visuals
     const dz = $('dropzone'), fileInput = $('up-file');
@@ -70,7 +71,7 @@
     show('dashboard');
     $('session-bar').classList.remove('hidden');
     $('who').textContent = user && user.email ? user.email : 'Signed in';
-    loadMedia(); loadTestimonials(); loadPortfolio(); loadBooks(); loadContacts();
+    loadMedia(); loadTestimonials(); loadPortfolio(); loadBooks(); loadTrainings(); loadContacts();
   }
 
   /* ---------------- Media ---------------- */
@@ -291,6 +292,69 @@
     tb.querySelectorAll('[data-del-book]').forEach((btn) => btn.addEventListener('click', async () => {
       if (!confirm('Delete this book?')) return;
       await EU.supabase.remove('books', btn.dataset.delBook); loadBooks();
+    }));
+  }
+
+  /* ---------------- Training ---------------- */
+  function detectProvider(url) {
+    if (/youtube\.com|youtu\.be/i.test(url)) return 'youtube';
+    if (/vimeo\.com/i.test(url)) return 'vimeo';
+    return 'file';
+  }
+
+  async function onSaveTraining(e) {
+    e.preventDefault();
+    const status = $('train-status');
+    status.textContent = 'Saving…'; status.className = 'status';
+    try {
+      let video_url = $('tr-url').value.trim() || null;
+      let provider = video_url ? detectProvider(video_url) : 'file';
+      const file = $('tr-file').files[0];
+      if (file) {
+        status.textContent = 'Uploading video…';
+        video_url = (await EU.supabase.upload(cfg.storage.mediaBucket, file)).url;
+        provider = 'file';
+      }
+      if (!video_url) { status.textContent = 'Add a YouTube/Vimeo link or a file.'; status.className = 'status err'; return; }
+      const row = {
+        topic: $('tr-topic').value.trim() || null, title: $('tr-title').value.trim(),
+        description: $('tr-desc').value.trim() || null, video_url, provider,
+        sort_order: Number($('tr-sort').value) || 0
+      };
+      if (editingId.train) row.id = editingId.train;
+      await EU.supabase.upsert('trainings', row);
+      $('train-form').reset(); setMode('train', 'train-form', null);
+      status.textContent = 'Saved!'; status.className = 'status ok';
+      loadTrainings();
+    } catch (err) { status.textContent = err.message || 'Save failed.'; status.className = 'status err'; }
+  }
+
+  async function loadTrainings() {
+    trainCache = await EU.supabase.list('trainings', { order: 'sort_order' });
+    const tb = $('train-rows');
+    if (!trainCache.length) { tb.innerHTML = '<tr><td colspan="4" class="muted">No training videos yet.</td></tr>'; return; }
+    tb.innerHTML = trainCache.map((t) => `<tr>
+      <td>${esc(t.topic || '—')}</td>
+      <td>${esc(t.title)}</td>
+      <td><span class="badge">${esc(t.provider || 'file')}</span></td>
+      <td>
+        <button class="btn btn-ghost btn-sm" data-edit-train="${t.id}">Edit</button>
+        <button class="btn btn-danger btn-sm" data-del-train="${t.id}">Delete</button>
+      </td>
+    </tr>`).join('');
+    tb.querySelectorAll('[data-edit-train]').forEach((b) => b.addEventListener('click', () => {
+      const t = trainCache.find((x) => x.id === b.dataset.editTrain); if (!t) return;
+      $('tr-topic').value = t.topic || ''; $('tr-title').value = t.title || '';
+      $('tr-desc').value = t.description || ''; $('tr-sort').value = t.sort_order || 0;
+      $('tr-url').value = t.provider === 'file' ? '' : (t.video_url || '');
+      setMode('train', 'train-form', t.id);
+      $('train-status').textContent = 'Editing “' + (t.title || 'video') + '” — change fields and click Update.';
+      $('train-status').className = 'status';
+      $('train-form').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }));
+    tb.querySelectorAll('[data-del-train]').forEach((b) => b.addEventListener('click', async () => {
+      if (!confirm('Delete this training video?')) return;
+      await EU.supabase.remove('trainings', b.dataset.delTrain); loadTrainings();
     }));
   }
 

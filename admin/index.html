@@ -64,6 +64,7 @@
         <button data-tab="testimonials">Testimonials</button>
         <button data-tab="portfolio">Portfolio &amp; Academic</button>
         <button data-tab="books">Book Club</button>
+        <button data-tab="training">Training</button>
         <button data-tab="contacts">Contacts</button>
       </div>
 
@@ -211,6 +212,32 @@
           <table class="data-table">
             <thead><tr><th>Title</th><th>Tag</th><th>Type</th><th></th></tr></thead>
             <tbody id="book-rows"><tr><td colspan="4" class="muted">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TRAINING -->
+      <div class="admin-panel" id="tab-training">
+        <div class="card">
+          <h3>Add a training video</h3>
+          <p class="muted" style="margin-top:-.4rem">Group videos by <b>topic</b> (e.g. “Project Management”). Best option: paste a <b>YouTube or Vimeo link</b> (set the video to <b>Unlisted</b> there) — no size limits. Small files can be uploaded directly (≈50&nbsp;MB max).</p>
+          <form id="train-form" class="form-grid">
+            <div class="grid grid-2" style="gap:1rem">
+              <div><label for="tr-topic">Topic</label><input id="tr-topic" placeholder="Project Management" /></div>
+              <div><label for="tr-sort">Sort order</label><input id="tr-sort" type="number" value="0" /></div>
+            </div>
+            <div><label for="tr-title">Title</label><input id="tr-title" required placeholder="e.g. Building a Project Charter" /></div>
+            <div><label for="tr-desc">Description (optional)</label><textarea id="tr-desc" rows="2"></textarea></div>
+            <div><label for="tr-url">YouTube or Vimeo link</label><input id="tr-url" placeholder="https://youtu.be/… or https://vimeo.com/…" /></div>
+            <div><label for="tr-file">…or upload a small video file</label><input id="tr-file" type="file" accept="video/*" /></div>
+            <button type="submit" class="btn btn-accent">Save</button>
+            <p id="train-status" class="status"></p>
+          </form>
+        </div>
+        <div class="table-wrap" style="margin-top:1.2rem">
+          <table class="data-table">
+            <thead><tr><th>Topic</th><th>Title</th><th>Source</th><th></th></tr></thead>
+            <tbody id="train-rows"><tr><td colspan="4" class="muted">Loading…</td></tr></tbody>
           </table>
         </div>
       </div>
