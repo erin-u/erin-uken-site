@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Living Strategically — A Personal Enterprise Strategic Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0F1A2B;
+    --ink-2:#16233A;
+    --ink-3:#1E2F4D;
+    --parchment:#F3ECDA;
+    --parchment-2:#EAE0C6;
+    --brass:#C0964F;
+    --brass-light:#E2C384;
+    --paper-text:#2A2118;
+    --paper-muted:#6B5E48;
+    --sky-text:#EDE7D6;
+    --sky-muted:#93A0BC;
+    --hair:rgba(226,195,132,0.22);
+    --hair-soft:rgba(255,255,255,0.08);
+    --rust:#9B4A34;
+    --sage:#6E8266;
+    --maxw:1080px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--sky-text);
+    font-family:'Source Serif 4', serif;
+    font-size:17px;
+    line-height:1.6;
+  }
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 32px;}
+  h1,h2,h3,h4{font-family:'Fraunces', serif; font-weight:500; margin:0;}
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--brass-light);
+  }
+  a{color:inherit;}
+
+  /* ---------- COMPASS SIGNATURE ---------- */
+  .compass{display:block;}
+  .compass .ring{fill:none; stroke:var(--brass); stroke-width:1;}
+  .compass .tick{stroke:var(--brass); stroke-width:1;}
+  .compass .needle{fill:var(--brass-light);}
+  .compass .dot{fill:var(--brass-light);}
+  .compass .label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:9px;
+    fill:var(--sky-muted);
+    letter-spacing:0.08em;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    padding:120px 0 100px;
+    overflow:hidden;
+    background:
+      radial-gradient(ellipse 900px 600px at 82% -10%, rgba(192,150,79,0.16), transparent 60%),
+      radial-gradient(ellipse 700px 500px at -10% 110%, rgba(192,150,79,0.10), transparent 60%),
+      var(--ink);
+    border-bottom:1px solid var(--hair);
+  }
+  .hero-compass{
+    position:absolute;
+    top:-140px; right:-140px;
+    width:520px; height:520px;
+    opacity:0.5;
+  }
+  .hero-inner{position:relative; z-index:2;}
+  .hero .eyebrow{margin-bottom:22px;}
+  .hero h1{
+    font-size:clamp(48px, 8vw, 84px);
+    letter-spacing:-0.01em;
+    color:var(--sky-text);
+    line-height:0.98;
+  }
+  .hero .subtitle{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:300;
+    font-size:clamp(19px, 2.4vw, 26px);
+    color:var(--brass-light);
+    margin-top:18px;
+  }
+  .hero .byline{
+    margin-top:34px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color:var(--sky-muted);
+    letter-spacing:0.03em;
+  }
+  .hero .byline strong{color:var(--sky-text); font-weight:500;}
+  .declaration{
+    margin-top:56px;
+    max-width:560px;
+    padding-left:24px;
+    border-left:2px solid var(--brass);
+  }
+  .declaration p{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:22px;
+    color:var(--sky-text);
+    margin:0;
+    line-height:1.4;
+  }
+  .creed{
+    margin-top:28px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px 22px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    color:var(--sky-muted);
+  }
+  .creed span::before{content:"— "; color:var(--brass);}
+
+  /* ---------- PART DIVIDER ---------- */
+  .part-divider{
+    padding:90px 0 44px;
+    text-align:left;
+  }
+  .part-divider .rule{
+    display:flex; align-items:center; gap:16px;
+    margin-bottom:20px;
+  }
+  .part-divider .rule::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:linear-gradient(to right, var(--hair), transparent);
+  }
+  .part-divider .num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px; letter-spacing:0.14em;
+    color:var(--brass);
+  }
+  .part-divider h2{
+    font-size:clamp(30px,4vw,42px);
+    color:var(--sky-text);
+  }
+  .part-divider p{
+    color:var(--sky-muted);
+    max-width:640px;
+    margin-top:10px;
+    font-size:15.5px;
+  }
+
+  /* ---------- CHAPTER BLOCK (on ink) ---------- */
+  .chapter{
+    padding:56px 0;
+    border-top:1px solid var(--hair-soft);
+  }
+  .chapter-head{
+    display:grid;
+    grid-template-columns:120px 1fr;
+    gap:28px;
+    margin-bottom:26px;
+  }
+  .chapter-head .ch-no{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--brass);
+    letter-spacing:0.1em;
+    padding-top:6px;
+  }
+  .chapter-head h3{
+    font-size:clamp(24px,3vw,30px);
+    color:var(--sky-text);
+  }
+  .chapter-body{
+    display:grid;
+    grid-template-columns:120px 1fr;
+    gap:28px;
+  }
+  .chapter-body .lead{grid-column:2;}
+  .chapter-body .lead p{color:var(--sky-muted); max-width:680px; font-size:16px;}
+
+  @media (max-width:640px){
+    .chapter-head, .chapter-body{grid-template-columns:1fr;}
+    .chapter-body .lead{grid-column:1;}
+  }
+
+  .pullquote{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:20px;
+    color:var(--brass-light);
+    max-width:640px;
+    margin:18px 0 0;
+    line-height:1.45;
+  }
+
+  .statement-box{
+    grid-column:2;
+    background:var(--ink-3);
+    border:1px solid var(--hair);
+    border-left:3px solid var(--brass);
+    padding:26px 30px;
+    border-radius:2px;
+    max-width:700px;
+    margin-top:6px;
+  }
+  .statement-box .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--brass);
+    display:block;
+    margin-bottom:10px;
+  }
+  .statement-box p{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    font-size:19px;
+    color:var(--sky-text);
+    margin:0;
+    line-height:1.5;
+  }
+  @media (max-width:640px){ .statement-box{grid-column:1;} }
+
+  /* ---------- ARTICLES GRID (Personal Constitution) ---------- */
+  .articles{
+    grid-column:2;
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:1px;
+    background:var(--hair-soft);
+    border:1px solid var(--hair-soft);
+    margin-top:4px;
+  }
+  @media (max-width:640px){ .articles{grid-column:1; grid-template-columns:1fr 1fr;} }
+  @media (max-width:420px){ .articles{grid-template-columns:1fr;} }
+  .article-card{
+    background:var(--ink);
+    padding:22px 20px;
+  }
+  .article-card .roman{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--brass);
+    letter-spacing:0.1em;
+  }
+  .article-card h4{
+    font-size:17px;
+    color:var(--sky-text);
+    margin:8px 0 8px;
+  }
+  .article-card p{
+    font-size:13.5px;
+    color:var(--sky-muted);
+    margin:0;
+    line-height:1.5;
+  }
+
+  /* ---------- VALUES TAGS ---------- */
+  .values-grid{
+    grid-column:2;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+    margin-top:8px;
+  }
+  @media (max-width:640px){ .values-grid{grid-column:1; grid-template-columns:1fr;} }
+  .value-card{
+    border:1px solid var(--hair);
+    padding:16px 20px;
+    background:var(--ink-2);
+  }
+  .value-card h4{font-size:15.5px; color:var(--brass-light); margin-bottom:6px;}
+  .value-card p{font-size:13.5px; color:var(--sky-muted); margin:0;}
+
+  /* ---------- ELEVEN Cs ---------- */
+  .cs-wrap{grid-column:2; margin-top:8px;}
+  @media (max-width:640px){ .cs-wrap{grid-column:1;} }
+  .cs-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:1px;
+    background:var(--hair-soft);
+    border:1px solid var(--hair-soft);
+  }
+  @media (max-width:760px){ .cs-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:420px){ .cs-grid{grid-template-columns:1fr;} }
+  .c-card{background:var(--ink); padding:18px 16px;}
+  .c-card .letter{
+    font-family:'Fraunces', serif;
+    font-size:26px;
+    color:var(--brass);
+    line-height:1;
+  }
+  .c-card h5{font-size:14.5px; color:var(--sky-text); margin:8px 0 4px;}
+  .c-card p{font-size:12.5px; color:var(--sky-muted); margin:0; line-height:1.4;}
+  .discernment-note{
+    margin-top:20px;
+    padding:18px 22px;
+    border:1px dashed var(--hair);
+    font-size:14px;
+    color:var(--sky-muted);
+  }
+  .discernment-note strong{color:var(--brass-light); font-family:'Fraunces',serif; font-style:italic; font-weight:400;}
+
+  /* ---------- EVOLUTION CHAIN ---------- */
+  .evolution{
+    grid-column:2;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:10px;
+    margin-top:10px;
+  }
+  @media (max-width:640px){ .evolution{grid-column:1;} }
+  .evo-step{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    color:var(--sky-text);
+    border:1px solid var(--hair);
+    padding:9px 14px;
+    background:var(--ink-2);
+    white-space:nowrap;
+  }
+  .evo-step.final{border-color:var(--brass); color:var(--brass-light);}
+  .evo-arrow{color:var(--brass); font-size:15px;}
+
+  /* ---------- PESTLE ---------- */
+  .pestle-grid{
+    grid-column:2;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+    margin-top:8px;
+  }
+  @media (max-width:640px){ .pestle-grid{grid-column:1; grid-template-columns:1fr;} }
+  .pestle-card{
+    border:1px solid var(--hair);
+    background:var(--ink-2);
+    padding:20px 22px;
+  }
+  .pestle-card .eyebrow{color:var(--brass);}
+  .pestle-card h4{font-size:16.5px; color:var(--sky-text); margin:8px 0 10px;}
+  .pestle-card p{font-size:13.5px; color:var(--sky-muted); margin:0 0 8px; line-height:1.5;}
+  .pestle-card .response{
+    font-size:13px;
+    color:var(--brass-light);
+    font-style:italic;
+    font-family:'Fraunces',serif;
+    border-top:1px solid var(--hair-soft);
+    padding-top:9px;
+    margin-top:9px;
+  }
+
+  /* ---------- ASSUMPTIONS ---------- */
+  .assumptions{
+    grid-column:2;
+    display:flex; flex-wrap:wrap; gap:10px;
+    margin-top:8px;
+  }
+  @media (max-width:640px){ .assumptions{grid-column:1;} }
+  .assumption-pill{
+    border:1px solid var(--hair);
+    padding:10px 16px;
+    font-size:13px;
+    color:var(--sky-muted);
+    background:var(--ink-2);
+  }
+  .assumption-pill strong{color:var(--sky-text); font-weight:500;}
+
+  /* ---------- DESIGN PARAMETERS ---------- */
+  .params{
+    grid-column:2;
+    margin-top:8px;
+  }
+  @media (max-width:640px){ .params{grid-column:1;} }
+  .param-row{
+    display:grid;
+    grid-template-columns:200px 1fr;
+    gap:20px;
+    padding:18px 0;
+    border-top:1px solid var(--hair-soft);
+  }
+  .param-row:first-child{border-top:none;}
+  @media (max-width:600px){ .param-row{grid-template-columns:1fr;} }
+  .param-row .plabel{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--brass);
+    letter-spacing:0.06em;
+  }
+  .param-row .pcontent{font-size:14.5px; color:var(--sky-muted); line-height:1.55;}
+  .param-row .pcontent strong{color:var(--sky-text); font-weight:500;}
+  .avoid-pursue{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:6px;}
+  @media (max-width:500px){ .avoid-pursue{grid-template-columns:1fr;} }
+  .ap-col{font-size:13px; color:var(--sky-muted);}
+  .ap-col .aptitle{font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:0.08em; margin-bottom:6px; display:block;}
+  .ap-col.pursue .aptitle{color:var(--sage);}
+  .ap-col.avoid .aptitle{color:var(--rust);}
+  .ap-col ul{margin:0; padding-left:16px;}
+  .ap-col li{margin-bottom:4px;}
+
+  /* ---------- CAPABILITY / ASSESSMENTS ---------- */
+  .dna-box{grid-column:2; margin-top:4px;}
+  @media (max-width:640px){ .dna-box{grid-column:1;} }
+  .badge-row{display:flex; flex-wrap:wrap; gap:10px; margin-top:18px;}
+  .badge{
+    border:1px solid var(--brass);
+    color:var(--brass-light);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    padding:8px 14px;
+    letter-spacing:0.03em;
+  }
+  .strengths-row{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:1px;
+    background:var(--hair-soft);
+    border:1px solid var(--hair-soft);
+    margin-top:22px;
+  }
+  @media (max-width:760px){ .strengths-row{grid-template-columns:repeat(2,1fr);} }
+  .strength-cell{background:var(--ink); padding:16px 12px; text-align:left;}
+  .strength-cell .n{font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--brass);}
+  .strength-cell h5{font-size:14px; color:var(--sky-text); margin:6px 0 4px;}
+  .strength-cell p{font-size:11.5px; color:var(--sky-muted); margin:0; line-height:1.4;}
+
+  /* ---------- SWOT ---------- */
+  .swot-grid{
+    grid-column:2;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1px;
+    background:var(--hair-soft);
+    border:1px solid var(--hair-soft);
+    margin-top:8px;
+  }
+  @media (max-width:640px){ .swot-grid{grid-column:1; grid-template-columns:1fr;} }
+  .swot-cell{background:var(--ink-2); padding:24px 26px;}
+  .swot-cell h4{font-size:16px; margin-bottom:12px; font-family:'IBM Plex Mono', monospace; letter-spacing:0.06em; text-transform:uppercase; font-weight:500;}
+  .swot-cell.strengths h4{color:var(--sage);}
+  .swot-cell.weaknesses h4{color:var(--brass-light);}
+  .swot-cell.opportunities h4{color:#7FA7C9;}
+  .swot-cell.threats h4{color:var(--rust);}
+  .swot-cell ul{margin:0; padding-left:18px;}
+  .swot-cell li{font-size:13.5px; color:var(--sky-muted); margin-bottom:9px; line-height:1.5;}
+  .swot-summary{
+    grid-column:2;
+    margin-top:18px;
+    font-size:14px;
+    color:var(--sky-muted);
+    max-width:700px;
+    font-style:italic;
+    font-family:'Fraunces', serif;
+  }
+  @media (max-width:640px){ .swot-summary{grid-column:1;} }
+
+  /* ---------- CLOSING ---------- */
+  .closing{
+    padding:100px 0 60px;
+    text-align:center;
+    background:linear-gradient(to bottom, var(--ink), var(--ink-2));
+    border-top:1px solid var(--hair);
+  }
+  .closing .compass-small{margin:0 auto 28px;}
+  .closing h3{
+    font-size:clamp(24px,3vw,32px);
+    color:var(--sky-text);
+    max-width:640px;
+    margin:0 auto 16px;
+  }
+  .closing p{
+    color:var(--sky-muted);
+    max-width:560px;
+    margin:0 auto;
+    font-size:14.5px;
+  }
+  .closing .roadmap{
+    display:flex; justify-content:center; flex-wrap:wrap; gap:10px;
+    margin-top:30px;
+  }
+  .roadmap .rstep{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    color:var(--sky-muted);
+    border:1px solid var(--hair-soft);
+    padding:8px 13px;
+  }
+  .roadmap .rstep.pending{color:var(--brass); border-color:var(--brass);}
+
+  footer{
+    padding:36px 0 50px;
+    text-align:center;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    color:var(--sky-muted);
+    letter-spacing:0.04em;
+  }
+
+  /* reveal animation */
+  .reveal{opacity:0; transform:translateY(14px); transition:opacity 0.7s ease, transform 0.7s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1; transform:none; transition:none;}
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <svg class="hero-compass compass" viewBox="0 0 200 200" aria-hidden="true">
+    <circle class="ring" cx="100" cy="100" r="92"/>
+    <circle class="ring" cx="100" cy="100" r="70"/>
+    <g class="tick">
+      <line x1="100" y1="8" x2="100" y2="20"/>
+      <line x1="100" y1="180" x2="100" y2="192"/>
+      <line x1="8" y1="100" x2="20" y2="100"/>
+      <line x1="180" y1="100" x2="192" y2="100"/>
+    </g>
+    <polygon class="needle" points="100,42 108,100 100,158 92,100"/>
+    <circle class="dot" cx="100" cy="100" r="4"/>
+    <text class="label" x="100" y="30" text-anchor="middle">N</text>
+    <text class="label" x="100" y="176" text-anchor="middle">S</text>
+    <text class="label" x="176" y="104" text-anchor="middle">E</text>
+    <text class="label" x="24" y="104" text-anchor="middle">W</text>
+  </svg>
+  <div class="wrap hero-inner">
+    <div class="eyebrow">A Personal Enterprise Strategic Plan · Version 1.0 · Living Document</div>
+    <h1>Living<br>Strategically</h1>
+    <div class="subtitle">An Executive Philosophy for Life, Leadership, and Legacy</div>
+    <div class="byline"><strong>Erin Uken, MCM, PMP®</strong> — Executive Leader | Integrative Strategist</div>
+    <div class="declaration">
+      <p>&ldquo;Life is not measured by the years we are given, but by how we choose to live them.&rdquo;</p>
+    </div>
+    <div class="creed">
+      <span>Purpose before priorities</span>
+      <span>Values before objectives</span>
+      <span>Leadership before position</span>
+      <span>Stewardship before success</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PART I ================= -->
+<div class="wrap">
+  <div class="part-divider reveal">
+    <div class="rule"><span class="num">PART I</span></div>
+    <h2>Executive Foundation</h2>
+    <p>Chapters 1–10. Before strategy comes philosophy — the constitution, purpose, mission, vision, values, and decision-making framework that everything else in this plan is built upon.</p>
+  </div>
+
+  <!-- Ch 1 -->
+  <div class="chapter reveal">
+    <div class="chapter-head">
+      <div class="ch-no">CH. 01</div>
+      <h3>Introduction — Why This Document Exists</h3>
+    </div>
+    <div class="chapter-body">
+      <div class="lead">
+        <p>Organizations build strategic plans because sustained success rarely happens by accident. Erin asks why individuals shouldn't hold themselves to the same intentionality — and treats her own life as the most important enterprise she will ever lead.</p>
+        <p class="pullquote">"What if I led my life with the same intentionality that high-performing organizations use to lead their mission?"</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ch 2: Personal Constitution -->
+  <div class="chapter reveal">
+    <div class="chapter-head">
+      <div class="ch-no">CH. 02</div>
+      <h3>Personal Constitution</h3>
+    </div>
+    <div class="chapter-body">
+      <div class="lead"><p>Nine standing Articles — not aspirations, but standards — that govern every strategy in the document, regardless of title, season, or circumstance.</p></div>
+      <div class="articles">
+        <div class="article-card"><span class="roman">ART. I</span><h4>Identity</h4><p>Identity precedes achievement — grounded in character and faith, not titles.</p></div>
+        <div class="article-card"><span class="roman">ART. II</span><h4>Stewardship</h4><p>Everything entrusted carries privilege and responsibility, never ownership.</p></div>
+        <div class="article-card"><span class="roman">ART. III</span><h4>Leadership</h4><p>Leadership is stewardship of people, opportunity, and influence — not authority.</p></div>
+        <div class="article-card"><span class="roman">ART. IV</span><h4>Relationships</h4><p>Relationships are life's greatest investment; success should never cost them.</p></div>
+        <div class="article-card"><span class="roman">ART. V</span><h4>Learning</h4><p>Learning is lifelong — curiosity and humility expand it in equal measure.</p></div>
+        <div class="article-card"><span class="roman">ART. VI</span><h4>Service</h4><p>Leadership is measured by value created for others, not personal recognition.</p></div>
+        <div class="article-card"><span class="roman">ART. VII</span><h4>Innovation</h4><p>Technology is a tool; people remain the purpose it must serve.</p></div>
+        <div class="article-card"><span class="roman">ART. VIII</span><h4>Community</h4><p>Healthy communities and healthy organizations build one another.</p></div>
+        <div class="article-card"><span class="roman">ART. IX</span><h4>Legacy</h4><p>Legacy is ordinary decisions, practiced consistently, measured by contribution.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ch 3: Purpose -->
+  <div class="chapter reveal">
+    <div class="chapter-head"><div class="ch-no">CH. 03</div><h3>Purpose</h3></div>
+    <div class="chapter-body">
+      <div class="lead"><p>Purpose isn't defined by role, but by the value created regardless of where Erin serves — a thread running across hospitality, insurance, real estate, marketing, nonprofit leadership, education, and entrepreneurship.</p></div>
+      <div class="statement-box">
+        <span class="tag">Purpose Statement</span>
+        <p>I exist to strengthen people, organizations, and communities by integrating leadership, communication, strategy, and stewardship to help others navigate complexity, create sustainable solutions, and build stronger futures for generations to come.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ch 4: Leadership Philosophy -->
+  <div class="chapter reveal">
+    <div class="chapter-head"><div class="ch-no">CH. 04</div><h3>Leadership Philosophy</h3></div>
+    <div class="chapter-body">
+      <div class="lead">
+        <p class="pullquote">"Leadership begins with stewardship."</p>
+        <p style="margin-top:16px;">A systems view of leadership: communication shapes culture, culture shapes trust, trust shapes performance. Effective leadership balances vision with execution, innovation with stewardship, confidence with humility — rarely at either extreme, always through discernment.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ch 5: Mission -->
+  <div class="chapter reveal">
+    <div class="chapter-head"><div class="ch-no">CH. 05</div><h3>Mission</h3></div>
+    <div class="chapter-body">
+      <div class="lead"><p>The specific vehicles will change — executive, entrepreneur, educator, consultant, REALTOR® — but the commitment stays constant.</p></div>
+      <div class="statement-box">
+        <span class="tag">Mission Statement</span>
+        <p>My mission is to integrate leadership, communication, strategy, operations, and stewardship to strengthen people, organizations, and communities through responsible leadership, thoughtful innovation, and sustainable solutions that create lasting value for future generations.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ch 6: Vision -->
+  <div class="chapter reveal">
+    <div class="chapter-head"><div class="ch-no">CH. 06</div><h3>Vision</h3></div>
+    <div class="chapter-body">
+      <div class="lead"><p>A future where leadership is stewardship rather than authority, innovation strengthens rather than replaces people, and the Colorado River region becomes a model of collaboration over conflict.</p></div>
+      <div class="statement-box">
+        <span class="tag">Vision Statement</span>
+        <p>I envision a future where leadership is defined by stewardship, organizations create lasting value for both people and communities, innovation strengthens the human experience, and collaborative leadership builds resilient organizations, thriving communities, and greater opportunities for future generations.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ch 7: Core Values -->
+  <div class="chapter reveal">
+    <div class="chapter-head"><div class="ch-no">CH. 07</div><h3>Core Values</h3></div>
+    <div class="chapter-body">
+      <div class="lead"><p>Seven constants that hold when circumstances don't — the ethical compass behind every other chapter.</p></div>
+      <div class="values-grid">
+        <div class="value-card"><h4>Stewardship</h4><p>Managing what's entrusted for the benefit of others, not ownership.</p></div>
+        <div class="value-card"><h4>Integrity</h4><p>Consistent alignment between values, decisions, and actions.</p></div>
+        <div class="value-card"><h4>Continuous Growth</h4><p>Curiosity and humility as a lifelong responsibility, not a phase.</p></div>
+        <div class="value-card"><h4>Relationships</h4><p>Life's greatest investment — strengthened, not spent, by success.</p></div>
+        <div class="value-card"><h4>Innovation</h4><p>Technology should strengthen people, guided by ethics and stewardship.</p></div>
+        <div class="value-card"><h4>Community</h4><p>Collaboration over isolation between sectors and citizens.</p></div>
+        <div class="value-card"><h4>Legacy</h4><p>Measured by what continues, not by what is accumulated.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ch 8: Eleven Cs -->
+  <div class="chapter reveal">
+    <div class="chapter-head"><div class="ch-no">CH. 08</div><h3>The Eleven Cs Leadership Framework</h3></div>
+    <div class="chapter-body">
+      <div class="lead"><p>Built on Eric Geiger's Character–Competence–Chemistry–Conviction model, expanded through Erin's own experience into eleven behavioral principles — used together as a "Decision Compass" for significant choices.</p></div>
+      <div class="cs-wrap">
+        <div class="cs-grid">
+          <div class="c-card"><div class="letter">Ch.</div><h5>Character</h5><p>Does this align with my constitution and values?</p></div>
+          <div class="c-card"><div class="letter">Co.</div><h5>Competence</h5><p>Do I have the preparation to lead this responsibly?</p></div>
+          <div class="c-card"><div class="letter">Ch.</div><h5>Chemistry</h5><p>How does this affect trust and team health?</p></div>
+          <div class="c-card"><div class="letter">Co.</div><h5>Conviction</h5><p>Does this hold under pressure or inconvenience?</p></div>
+          <div class="c-card"><div class="letter">Cu.</div><h5>Curiosity</h5><p>Have I explored other perspectives first?</p></div>
+          <div class="c-card"><div class="letter">Co.</div><h5>Confidence</h5><p>Does this create stability, led without ego?</p></div>
+          <div class="c-card"><div class="letter">Co.</div><h5>Compassion</h5><p>Have I weighed the human impact?</p></div>
+          <div class="c-card"><div class="letter">Co.</div><h5>Communication</h5><p>Will this create real shared understanding?</p></div>
+          <div class="c-card"><div class="letter">Cr.</div><h5>Creativity</h5><p>Have I integrated diverse ideas into the strongest option?</p></div>
+          <div class="c-card"><div class="letter">Co.</div><h5>Cont. Improvement</h5><p>What growth does this decision create?</p></div>
+          <div class="c-card"><div class="letter">Co.</div><h5>Community Stewardship</h5><p>Does this create value beyond the organization?</p></div>
+        </div>
+        <div class="discernment-note"><strong>Discernment</strong> is the thread connecting all eleven — the overarching question before any decision: "What does this moment require of me?"</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ch 9: Defining Success -->
+  <div class="chapter reveal">
+    <div class="chapter-head"><div class="ch-no">CH. 09</div><h3>Defining Success</h3></div>
+    <div class="chapter-body">
+      <div class="lead"><p>Not a destination reached once, but the cumulative result of countless decisions made with integrity and intentionality.</p></div>
+      <div class="statement-box">
+        <span class="tag">Success, Defined</span>
+        <p>Success is the faithful stewardship of the life entrusted to me.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ch 10: Leadership Evolution -->
+  <div class="chapter reveal">
+    <div class="chapter-head"><div class="ch-no">CH. 10</div><h3>Leadership Evolution</h3></div>
+    <div class="chapter-body">
+      <div class="lead"><p>How Erin's own understanding of leadership has matured — from guiding others toward goals, to stewarding the people, systems, and communities entrusted to her care.</p></div>
+      <div class="evolution">
+        <div class="evo-step">Navigator</div><span class="evo-arrow">→</span>
+        <div class="evo-step">Practitioner</div><span class="evo-arrow">→</span>
+        <div class="evo-step">Communicator</div><span class="evo-arrow">→</span>
+        <div class="evo-step">Systems Thinker</div><span class="evo-arrow">→</span>
+        <div class="evo-step">Integrative Strategist</div><span class="evo-arrow">→</span>
+        <div class="evo-step final">Steward</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= PART II ================= -->
+<div class="wrap">
+  <div class="part-divider reveal">
+    <div class="rule"><span class="num">PART II</span></div>
+    <h2>Strategic Assessment</h2>
+    <p>Chapters 11–15. "Diagnose before you design." Scanning the external environment, naming working assumptions, setting operating parameters, assessing capability, and pressure-testing it all through an executive SWOT.</p>
+  </div>
+
+  <!-- Ch 11: PESTLE -->
+  <div class="chapter reveal">
+    <div class="chapter-head"><div class="ch-no">CH. 11</div><h3>Environmental Scan — PESTLE</h3></div>
+    <div class="chapter-body">
+      <div class="lead"><p>Six lenses on "the world," each read specifically through Southwest / Colorado River Basin dynamics.</p></div>
+      <div class="pestle-grid">
+        <div class="pestle-card">
+          <span class="eyebrow">Political</span>
+          <h4>Regional collaboration</h4>
+          <p>Water policy, tribal sovereignty, and infrastructure investment will keep shaping the Colorado River Basin's future.</p>
+          <div class="response">Build relationships across economic development, water stewardship, and responsible AI adoption.</div>
+        </div>
+        <div class="pestle-card">
+          <span class="eyebrow">Economic</span>
+          <h4>Volatility &amp; disruption</h4>
+          <p>Inflation, labor shortages, and digital transformation press hardest on small businesses.</p>
+          <div class="response">Pair a stable executive role with diversified income through consulting, education, and real estate.</div>
+        </div>
+        <div class="pestle-card">
+          <span class="eyebrow">Social</span>
+          <h4>Human-centered expectations</h4>
+          <p>Trust in institutions is declining as expectations shift toward transparency and psychological safety.</p>
+          <div class="response">Lead with emotional intelligence, stakeholder engagement, and relationship-centered leadership.</div>
+        </div>
+        <div class="pestle-card">
+          <span class="eyebrow">Technological</span>
+          <h4>AI as the new baseline</h4>
+          <p>Technology itself is no longer the edge — integrating it with people and culture is.</p>
+          <div class="response">Build fluency in responsible AI adoption and organizational change management.</div>
+        </div>
+        <div class="pestle-card">
+          <span class="eyebrow">Legal</span>
+          <h4>Rising complexity</h4>
+          <p>AI, privacy, employment law, and property regulation are all growing more intricate.</p>
+          <div class="response">Prioritize governance, transparency, and proactive risk management.</div>
+        </div>
+        <div class="pestle-card">
+          <span class="eyebrow">Environmental</span>
+          <h4>Water as the defining issue</h4>
+          <p>Drought and growth are placing sustained pressure on the Colorado River's finite resources.</p>
+          <div class="response">Position at the intersection of AI, economic development, and water stewardship.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ch 12: Assumptions -->
+  <div class="chapter reveal">
+    <div class="chapter-head"><div class="ch-no">CH. 12</div><h3>Strategic Assumptions</h3></div>
+    <div class="chapter-body">
+      <div class="lead"><p>The planning foundation this plan is built on, reviewed annually for continued relevance.</p></div>
+      <div class="assumptions">
+        <div class="assumption-pill"><strong>Technology —</strong> AI paired with human leadership will outperform tech alone.</div>
+        <div class="assumption-pill"><strong>Leadership —</strong> systems thinking beats narrow specialization.</div>
+        <div class="assumption-pill"><strong>Workforce —</strong> hybrid/remote work keeps expanding options.</div>
+        <div class="assumption-pill"><strong>Economy —</strong> uncertainty and cost pressure persist.</div>
+        <div class="assumption-pill"><strong>Community —</strong> shared regional outcomes require cross-sector work.</div>
+        <div class="assumption-pill"><strong>Southwest Growth —</strong> population and infrastructure demand keeps rising.</div>
+        <div class="assumption-pill"><strong>Colorado River —</strong> water stewardship becomes a defining issue.</div>
+        <div class="assumption-pill"><strong>Human Skills —</strong> communication and ethics become stronger differentiators.</div>
+        <div class="assumption-pill"><strong>Lifelong Learning —</strong> stays essential to leadership relevance.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ch 13: Design Parameters -->
+  <div class="chapter reveal">
+    <div class="chapter-head"><div class="ch-no">CH. 13</div><h3>Strategic Design Parameters</h3></div>
+    <div class="chapter-body">
+      <div class="lead"><p>The operating rules this plan is designed within today — expected to evolve as financial independence and business maturity expand.</p></div>
+      <div class="params">
+        <div class="param-row">
+          <div class="plabel">EMPLOYMENT</div>
+          <div class="pcontent"><strong>Phase I — Financial Stability (0–24 months):</strong> secure a full-time W-2 leadership role with stable income and benefits, either near Parker, AZ or fully remote.</div>
+        </div>
+        <div class="param-row">
+          <div class="plabel">GEOGRAPHY</div>
+          <div class="pcontent">Daily base: Parker, AZ &amp; the Parker Strip. Weekly regional travel: Lake Havasu City, Bullhead City, Needles. Biweekly/monthly: Phoenix metro and Southern California.</div>
+        </div>
+        <div class="param-row">
+          <div class="plabel">FINANCIAL</div>
+          <div class="pcontent">Near-term: stable cash flow, healthcare coverage, emergency savings. Long-term: diversified income, business equity, reduced reliance on a single employer.</div>
+        </div>
+        <div class="param-row">
+          <div class="plabel">LIFESTYLE</div>
+          <div class="pcontent">Present, engaged parenting; protected time for wellbeing, learning, and community leadership — professional success supporting life, not replacing it.</div>
+        </div>
+        <div class="param-row">
+          <div class="plabel">PROFESSIONAL</div>
+          <div class="pcontent">
+            <div class="avoid-pursue">
+              <div class="ap-col pursue"><span class="aptitle">PURSUE</span><ul><li>Strategic leadership roles</li><li>Cross-discipline impact</li><li>Responsible AI &amp; innovation</li></ul></div>
+              <div class="ap-col avoid"><span class="aptitle">AVOID</span><ul><li>Conflicts with core values</li><li>Required relocation</li><li>Short-term gain over stewardship</li></ul></div>
+            </div>
+          </div>
+        </div>
+        <div class="param-row">
+          <div class="plabel">HOME BASE</div>
+          <div class="pcontent">Parker, AZ is intentional, not a limitation — proof that executive leadership and regional impact can be built from a rural community through travel, technology, and partnership.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ch 14: Capability Assessment -->
+  <div class="chapter reveal">
+    <div class="chapter-head"><div class="ch-no">CH. 14</div><h3>Leadership &amp; Capability Assessment</h3></div>
+    <div class="chapter-body">
+      <div class="lead">
+        <p>Across hospitality, communications, nonprofit leadership, higher ed, and real estate, one identity keeps surfacing: the <strong style="color:var(--sky-text)">Integrative Strategist</strong> — connecting communication, operations, technology, and governance into one system rather than specializing in a single lane.</p>
+      </div>
+      <div class="dna-box">
+        <div class="badge-row">
+          <div class="badge">MBTI · INFJ</div>
+          <div class="badge">DISC · Ds/C</div>
+          <div class="badge">Enneagram · 3w2</div>
+          <div class="badge">CliftonStrengths · Top 5</div>
+        </div>
+        <div class="strengths-row">
+          <div class="strength-cell"><span class="n">01</span><h5>Connectedness</h5><p>Understand the system before acting on it.</p></div>
+          <div class="strength-cell"><span class="n">02</span><h5>Responsibility</h5><p>Deep ownership of what's entrusted to her.</p></div>
+          <div class="strength-cell"><span class="n">03</span><h5>Maximizer</h5><p>How can this become stronger than it is today?</p></div>
+          <div class="strength-cell"><span class="n">04</span><h5>Strategic</h5><p>Finds the practical path from vision to action.</p></div>
+          <div class="strength-cell"><span class="n">05</span><h5>Futuristic</h5><p>Keeps today's decisions tied to tomorrow's outcomes.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ch 15: SWOT -->
+  <div class="chapter reveal">
+    <div class="chapter-head"><div class="ch-no">CH. 15</div><h3>Executive SWOT Analysis</h3></div>
+    <div class="chapter-body">
+      <div class="lead"><p>Where capability meets the external environment.</p></div>
+      <div class="swot-grid">
+        <div class="swot-cell strengths">
+          <h4>Strengths</h4>
+          <ul>
+            <li>Systems thinking — sees root causes, not symptoms</li>
+            <li>Interdisciplinary integration across industries</li>
+            <li>Translates complexity into shared understanding</li>
+            <li>Stewardship-driven accountability and follow-through</li>
+            <li>Connects long-range vision to disciplined execution</li>
+          </ul>
+        </div>
+        <div class="swot-cell weaknesses">
+          <h4>Weaknesses</h4>
+          <ul>
+            <li>Fast, multi-step thinking can outpace others' ability to follow</li>
+            <li>Comfortable revising direction — but must over-communicate why</li>
+            <li>Tendency toward overcommitment when she can add value</li>
+            <li>Pursuit of excellence can delay timely execution</li>
+            <li>Growing executive presence and pacing for diverse teams</li>
+          </ul>
+        </div>
+        <div class="swot-cell opportunities">
+          <h4>Opportunities</h4>
+          <ul>
+            <li>Responsible AI adoption needs human-centered leadership</li>
+            <li>Rising demand for cross-functional executives</li>
+            <li>Education, consulting, and speaking multiply impact</li>
+            <li>Southwest regional development — water, housing, growth</li>
+            <li>Real estate as a vehicle for community-level impact</li>
+          </ul>
+        </div>
+        <div class="swot-cell threats">
+          <h4>Threats</h4>
+          <ul>
+            <li>Economic and labor-market volatility</li>
+            <li>Pace of technological change outstripping governance</li>
+            <li>Regional resource constraints (water, infrastructure)</li>
+            <li>Risk of over-diversifying across too many ventures</li>
+            <li>Institutional trust pressures affecting stakeholder alignment</li>
+          </ul>
+        </div>
+      </div>
+      <p class="swot-summary">"My greatest competitive advantage is not expertise within a single discipline, but the ability to integrate multiple disciplines into coherent strategies that strengthen people, organizations, and communities."</p>
+    </div>
+  </div>
+</div>
+
+<!-- ================= CLOSING ================= -->
+<section class="closing">
+  <div class="wrap">
+    <svg class="compass-small compass" viewBox="0 0 80 80" width="64" height="64" aria-hidden="true">
+      <circle class="ring" cx="40" cy="40" r="36"/>
+      <polygon class="needle" points="40,16 44,40 40,64 36,40"/>
+      <circle class="dot" cx="40" cy="40" r="2.5"/>
+    </svg>
+    <h3>"A compass does not determine the destination. It simply helps ensure that each step continues moving in the intended direction."</h3>
+    <p>This overview covers Parts I &amp; II as currently drafted. Chapters 16–19 — Strategic Position, Strategic Issues, Opportunity Portfolio, and Strategic Diagnosis — are still being written, ahead of Part III: Strategic Direction and Part IV: Strategic Execution.</p>
+    <div class="roadmap">
+      <div class="rstep">Part I — Foundation ✓</div>
+      <div class="rstep">Part II — Assessment ✓</div>
+      <div class="rstep pending">Ch. 16–19 — In progress</div>
+      <div class="rstep pending">Part III — Direction</div>
+      <div class="rstep pending">Part IV — Execution</div>
+    </div>
+  </div>
+</section>
+
+<footer>LIVING STRATEGICALLY · A PERSONAL ENTERPRISE STRATEGIC PLAN · ERIN UKEN, MCM, PMP® · LAST UPDATED JULY 2026</footer>
+
+<script>
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  }, {threshold:0.08});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
