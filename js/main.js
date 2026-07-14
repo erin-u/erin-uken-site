@@ -42,6 +42,7 @@
     hydratePortfolio();
     hydrateGalleries();
     hydrateBooks();
+    hydrateTrainings();
     wireContactForm();
     wireTestimonialForm();
     initInlineEditor();
@@ -309,6 +310,49 @@
           <span class="doc-ic">📄</span>${esc(m.title || m.url.split('/').pop())}
         </a></li>`).join('');
     });
+  }
+
+  /* ---------------- Training (grouped by topic) ---------------- */
+  async function hydrateTrainings() {
+    const mount = document.querySelector('[data-trainings]');
+    if (!mount || !EU.supabase || !EU.supabase.configured()) return;
+    const rows = await EU.supabase.list('trainings', { order: 'sort_order' });
+    if (!rows.length) return;
+
+    // group by topic, preserving first-seen order
+    const groups = []; const idx = {};
+    rows.forEach((t) => {
+      const key = (t.topic || 'Training').trim() || 'Training';
+      if (idx[key] == null) { idx[key] = groups.length; groups.push({ topic: key, items: [] }); }
+      groups[idx[key]].items.push(t);
+    });
+
+    mount.innerHTML = groups.map((g) => `
+      <div class="training-topic">
+        <div class="section-head"><span class="eyebrow">Topic</span><h2>${esc(g.topic)}</h2></div>
+        <div class="grid grid-2">
+          ${g.items.map(card).join('')}
+        </div>
+      </div>`).join('');
+
+    function card(t) {
+      return `<article class="card" style="padding:0;overflow:hidden">
+        ${embedFor(t)}
+        <div style="padding:1.2rem">
+          <h3>${esc(t.title)}</h3>
+          ${t.description ? `<p class="muted">${esc(t.description)}</p>` : ''}
+        </div>
+      </article>`;
+    }
+    function embedFor(t) {
+      const u = t.video_url || '';
+      const yt = u.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{6,})/);
+      const vm = u.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+      if (t.provider !== 'file' && yt) return `<div class="video-embed"><iframe src="https://www.youtube.com/embed/${yt[1]}" title="${esc(t.title)}" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`;
+      if (t.provider !== 'file' && vm) return `<div class="video-embed"><iframe src="https://player.vimeo.com/video/${vm[1]}" title="${esc(t.title)}" allow="autoplay;fullscreen;picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`;
+      if (u) return `<div class="video-embed"><video src="${esc(u)}" controls preload="metadata"></video></div>`;
+      return '';
+    }
   }
 
   /* ---------------- Contact form ---------------- */

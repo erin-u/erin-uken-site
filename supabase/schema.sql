@@ -63,6 +63,17 @@ create table if not exists public.books (
   created_at timestamptz default now()
 );
 
+create table if not exists public.trainings (
+  id uuid primary key default gen_random_uuid(),
+  topic text,                    -- e.g. "Project Management"
+  title text not null,
+  description text,
+  video_url text,                -- YouTube/Vimeo link or an uploaded file URL
+  provider text default 'file',  -- 'file' | 'youtube' | 'vimeo'
+  sort_order int default 0,
+  created_at timestamptz default now()
+);
+
 create table if not exists public.media_assets (
   id uuid primary key default gen_random_uuid(),
   title text,
@@ -81,6 +92,10 @@ alter table public.portfolio_items    enable row level security;
 alter table public.media_assets        enable row level security;
 alter table public.books               enable row level security;
 alter table public.site_content        enable row level security;
+alter table public.trainings           enable row level security;
+
+create policy "trainings read (public)"  on public.trainings for select to anon, authenticated using (true);
+create policy "trainings manage (admin)" on public.trainings for all    to authenticated using (true) with check (true);
 
 create policy "books read (public)"   on public.books for select to anon, authenticated using (true);
 create policy "books manage (admin)"  on public.books for all    to authenticated using (true) with check (true);
