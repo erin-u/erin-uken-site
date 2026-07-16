@@ -16,6 +16,12 @@ window.SITE_CONFIG = {
   // Optional: page-level fallback contact email shown in the footer.
   contactEmail: 'erin@riveracedesigns.com',
 
+  // Soft site lock: shows a password screen over every page while you finish
+  // updates. Set siteLocked:false (or ask Claude to "unlock the site") to make
+  // the site public. gateHash is the SHA-256 of the password.
+  siteLocked: true,
+  gateHash: 'c0aca52f080889ddedf9f8235ea0e13cabca083e4e0de45c7f649c0c25c973c5',
+
   // Lead magnets: after someone submits the contact form, a thank-you popup
   // offers an instant resource matched to the interest they picked.
   // Replace the '#' links with the real book/PDF/course URL for each.
