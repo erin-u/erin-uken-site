@@ -6,6 +6,39 @@
 (function () {
   const EU = window.EU || {};
 
+  /* ---------------- Soft site lock ---------------- */
+  (function siteGate() {
+    const cfg = window.SITE_CONFIG || {};
+    if (!cfg.siteLocked || !cfg.gateHash) return;
+    try { if (sessionStorage.getItem('eu_gate_ok') === '1') return; } catch (e) {}
+    const root = document.documentElement;
+    root.style.overflow = 'hidden';
+    const ov = document.createElement('div');
+    ov.className = 'eu-gate';
+    ov.innerHTML =
+      '<div class="eu-gate-card">' +
+      '<div class="brand-mark" style="margin:0 auto 1rem">EU</div>' +
+      '<h2>This site is being updated</h2>' +
+      '<p>Please enter the password to preview.</p>' +
+      '<form id="eu-gate-form"><input id="eu-gate-pw" type="password" placeholder="Password" autocomplete="off" autofocus />' +
+      '<button class="btn btn-accent btn-block" type="submit" style="margin-top:.7rem">Enter</button>' +
+      '<p id="eu-gate-err" class="status err" style="min-height:1.2em"></p></form></div>';
+    root.appendChild(ov);
+    async function sha256(s) {
+      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+      return Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, '0')).join('');
+    }
+    ov.querySelector('#eu-gate-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const err = ov.querySelector('#eu-gate-err');
+      try {
+        const ok = (await sha256(ov.querySelector('#eu-gate-pw').value)) === cfg.gateHash;
+        if (ok) { try { sessionStorage.setItem('eu_gate_ok', '1'); } catch (x) {} root.style.overflow = ''; ov.remove(); }
+        else { err.textContent = 'Incorrect password.'; }
+      } catch (x) { err.textContent = 'This browser can’t verify the password (needs HTTPS).'; }
+    });
+  })();
+
   function ready(fn) {
     if (document.readyState !== 'loading') fn();
     else document.addEventListener('DOMContentLoaded', fn);

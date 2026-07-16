@@ -450,6 +450,14 @@ img.eu-img:hover { outline-style: solid; filter: brightness(.9); }
 }
 @media (max-width: 700px) { .book-grid { grid-template-columns: 1fr; } }
 
+/* ---------- Soft site lock ---------- */
+.eu-gate { position: fixed; inset: 0; z-index: 99999; display: grid; place-items: center; padding: 1.2rem;
+  background: radial-gradient(1000px 600px at 80% -10%, rgba(8,180,183,.18), transparent 60%), var(--teal-ink); }
+.eu-gate-card { background: #fff; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); padding: 2.4rem; max-width: 400px; width: 100%; text-align: center; }
+.eu-gate-card h2 { margin-bottom: .4rem; }
+.eu-gate-card p { color: var(--muted); }
+.eu-gate-card input { text-align: center; }
+
 /* ---------- Training videos ---------- */
 .training-topic { margin-bottom: 3rem; }
 .training-topic:last-child { margin-bottom: 0; }
