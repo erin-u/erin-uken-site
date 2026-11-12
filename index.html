@@ -3,22 +3,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="Erin Uken — Growth & Transformation Architect. AI business coaching & consulting, real estate, and peer-to-peer coaching. Diagnose. Design. Transform. Scale." />
-  <title>Erin Uken | Growth &amp; Transformation Architect</title>
+  <meta name="description" content="Erin Uken — a refreshed website is on the way. Strategy, communication, and transformation across consulting, real estate, and coaching." />
+  <title>Erin Uken — Coming Soon</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
   <link rel="canonical" href="https://erinuken.com/" />
   <meta name="author" content="Erin Uken" />
-  <meta property="og:type" content="profile" />
-  <meta property="og:title" content="Erin Uken | Growth & Transformation Architect" />
-  <meta property="og:description" content="Erin Uken — AI business consulting, real estate, and peer-to-peer coaching. 20+ years across diverse industries. Colorado River roots since the 1960s." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Erin Uken — Coming Soon" />
+  <meta property="og:description" content="A refreshed website is on the way." />
   <meta property="og:url" content="https://erinuken.com/" />
-  <meta property="og:image" content="https://erinuken.com/assets/erin-hero.jpg" />
-  <!-- Structured data: lets search engines and AI assistants read the correct facts
-       directly from the page source (they do not need the password to read this). -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;1,8..60,400&display=swap" rel="stylesheet">
+  <!-- Honest, minimal structured data so search engines and AI read the basics correctly. -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -26,151 +23,104 @@
     "@id": "https://erinuken.com/#erin",
     "name": "Erin Uken",
     "url": "https://erinuken.com/",
-    "image": "https://erinuken.com/assets/erin-hero.jpg",
-    "jobTitle": "Growth & Transformation Architect",
-    "description": "Erin Uken is a Growth & Transformation Architect with more than 20 years of experience across diverse industries — including hospitality, insurance, real estate, marketing, communications, nonprofit leadership, education, and entrepreneurship. She holds a master's degree in communication management and marketing, and works across AI business consulting (the Radical AI Shift), real estate, and peer-to-peer coaching. Her family's Colorado River journey began in the 1960s, and she is raising the fourth generation in the Parker and La Paz County communities of Arizona.",
-    "knowsAbout": ["AI business consulting", "Artificial intelligence strategy", "Real estate", "Marketing", "Communications", "Business strategy", "Project management", "Peer-to-peer coaching", "Leadership"],
-    "hasCredential": {
-      "@type": "EducationalOccupationalCredential",
-      "credentialCategory": "degree",
-      "name": "Master's in Communication Management and Marketing"
-    },
-    "homeLocation": {
-      "@type": "Place",
-      "name": "Parker, La Paz County, Arizona — the Colorado River communities"
-    },
+    "description": "Erin Uken works across AI business consulting, real estate, and peer-to-peer coaching, with more than 20 years of experience spanning diverse industries. Her family's Colorado River roots in Arizona go back to the 1960s.",
     "sameAs": [
-      "https://www.facebook.com/erin.uken",
-      "https://www.instagram.com/erinuken/",
       "https://www.linkedin.com/in/erinuken/",
+      "https://www.instagram.com/erinuken/",
+      "https://www.facebook.com/erin.uken",
       "https://www.tiktok.com/@erin.uken",
       "https://x.com/Erin_Uken",
       "https://erinuken.exprealty.com/"
     ]
   }
   </script>
+  <style>
+    :root{
+      --bg-1:#241d18; --bg-2:#15100d;
+      --cream:#f4ece1; --muted:#c7b7a4;
+      --gold:#d4af7a; --gold-strong:#c9994f;
+      --line:rgba(244,236,225,.14);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; color:var(--cream);
+      font-family:"Source Serif 4", Georgia, serif;
+      background:radial-gradient(1200px 700px at 50% -10%, #33261d 0%, var(--bg-1) 42%, var(--bg-2) 100%);
+      display:flex; flex-direction:column; min-height:100vh;
+      -webkit-font-smoothing:antialiased;
+    }
+    .wrap{
+      flex:1; display:flex; align-items:center; justify-content:center;
+      padding:3rem 1.25rem;
+    }
+    .card{ width:100%; max-width:620px; text-align:center }
+    .eyebrow{
+      font-family:"Montserrat",system-ui,sans-serif;
+      letter-spacing:.28em; text-transform:uppercase;
+      font-size:.72rem; font-weight:600; color:var(--gold);
+      margin:0 0 1.4rem;
+    }
+    h1{
+      font-family:"Montserrat",system-ui,sans-serif;
+      font-weight:800; letter-spacing:.01em;
+      font-size:clamp(2.3rem,7vw,3.4rem); line-height:1.05;
+      margin:0 0 .5rem;
+    }
+    .tagline{
+      font-family:"Montserrat",system-ui,sans-serif;
+      font-weight:500; letter-spacing:.14em; text-transform:uppercase;
+      font-size:clamp(.72rem,2.4vw,.86rem); color:var(--muted);
+      margin:0 0 2rem;
+    }
+    .rule{ width:56px; height:2px; background:var(--gold-strong); border:0; margin:0 auto 2rem; opacity:.9 }
+    .lead{
+      font-size:clamp(1.05rem,2.6vw,1.2rem); line-height:1.65;
+      color:var(--cream); margin:0 auto 1rem; max-width:34rem;
+    }
+    .note{ color:var(--muted); font-size:1rem; margin:0 auto 2.4rem; max-width:32rem }
+    .cta{
+      display:inline-block; font-family:"Montserrat",sans-serif; font-weight:600;
+      font-size:.95rem; letter-spacing:.02em;
+      color:#241d18; background:var(--gold);
+      padding:.85rem 1.6rem; border-radius:999px; text-decoration:none;
+      transition:transform .15s ease, background .15s ease;
+    }
+    .cta:hover{ background:var(--gold-strong); transform:translateY(-1px) }
+    .social{ margin:2.2rem 0 0; display:flex; gap:1.4rem; justify-content:center; flex-wrap:wrap }
+    .social a{
+      font-family:"Montserrat",sans-serif; font-weight:500; font-size:.82rem;
+      letter-spacing:.06em; text-transform:uppercase;
+      color:var(--muted); text-decoration:none; padding-bottom:2px;
+      border-bottom:1px solid transparent; transition:color .15s, border-color .15s;
+    }
+    .social a:hover{ color:var(--gold); border-color:var(--gold) }
+    footer{
+      text-align:center; padding:1.6rem 1.25rem;
+      color:rgba(199,183,164,.6); font-family:"Montserrat",sans-serif;
+      font-size:.78rem; border-top:1px solid var(--line);
+    }
+  </style>
 </head>
 <body>
-  <div data-header data-active=""></div>
-  <noscript>
-    <nav class="container" style="padding:1rem 0">
-      <a href="pages/about.html">About</a> · <a href="pages/ai-consulting.html">AI Consulting</a> ·
-      <a href="pages/real-estate.html">Real Estate</a> · <a href="pages/coaching.html">Coaching</a> ·
-      <a href="pages/portfolio.html">Portfolio</a> · <a href="pages/contact.html">Contact</a>
-    </nav>
-  </noscript>
-
-  <main id="main">
-    <!-- Hero -->
-    <section class="hero">
-      <div class="container hero-grid">
-        <div>
-          <span class="eyebrow">Growth &amp; Transformation Architect</span>
-          <h1>Real growth, built to last — <span class="accent">sustainably, independently, measurably.</span></h1>
-          <p class="tagline">Diagnose. Design. Transform. Scale.</p>
-          <p class="lead">I help growth-minded leaders uncover the hidden constraints holding them back and build the systems, strategy, and confidence to scale — across AI consulting, real estate, and peer-to-peer coaching.</p>
-          <div class="hero-actions">
-            <a class="btn btn-accent" href="pages/contact.html">Book a strategy call</a>
-            <a class="btn btn-outline" href="pages/about.html">Meet Erin</a>
-          </div>
-          <div class="hero-trust">
-            <span><b>Colorado River roots</b> since the 1960s</span>
-            <span><b>Master’s</b> in Communication &amp; Marketing</span>
-            <span><b>20+ years</b> across diverse industries</span>
-          </div>
-        </div>
-        <div class="hero-card">
-          <img class="portrait" src="assets/erin-hero.jpg" alt="Erin Uken, Growth & Transformation Architect" />
-          <span class="chip">Diagnose → Scale</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- What I do -->
-    <section class="section roomy">
-      <div class="container">
-        <div class="section-head center">
-          <span class="eyebrow">What I do</span>
-          <h2>Three ways I help people and businesses move forward</h2>
-          <p>Different goals, same experience every time: warmth up front, and a tenacious, systems-minded partner working behind the scenes.</p>
-        </div>
-        <div class="grid grid-3">
-          <article class="card">
-            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="14" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg></div>
-            <span class="kicker">Radical AI Shift</span>
-            <h3>AI Business Coaching &amp; Consulting</h3>
-            <p>Practical AI strategy, systems, and implementation that help small businesses adapt, compete, and grow — without leaving people behind.</p>
-            <a class="card-link" href="pages/ai-consulting.html">Explore AI consulting</a>
-          </article>
-          <article class="card accent">
-            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg></div>
-            <span class="kicker">eXp Realty</span>
-            <h3>Real Estate</h3>
-            <p>Warm, tenacious representation for buyers and sellers across Parker, Lake Havasu City &amp; La Paz County — modern marketing, local roots.</p>
-            <a class="card-link" href="pages/real-estate.html">See real estate</a>
-          </article>
-          <article class="card">
-            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-            <span class="kicker">Peer-to-Peer</span>
-            <h3>Coaching</h3>
-            <p>Honest, side-by-side coaching for owners and operators who want a thinking partner to navigate change with clarity and confidence.</p>
-            <a class="card-link" href="pages/coaching.html">Explore coaching</a>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- Framework -->
-    <section class="section roomy alt">
-      <div class="container">
-        <div class="section-head">
-          <span class="eyebrow">The framework</span>
-          <h2>A clear four-stage path from stuck to scalable</h2>
-          <p>The same method works whether we’re architecting your business or selling your home — because the real differentiator is the process, and the person guiding it.</p>
-        </div>
-        <div class="framework">
-          <div class="step"><h3>Diagnose</h3><p>Root-cause analysis, assessment, and discovery to find the real constraint.</p></div>
-          <div class="step"><h3>Design</h3><p>Strategy, planning, and architecture tailored to your goals and stage.</p></div>
-          <div class="step"><h3>Transform</h3><p>Change management, implementation, and adoption that actually sticks.</p></div>
-          <div class="step"><h3>Scale</h3><p>Systems, automation, and sustainable growth you can run without me.</p></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Testimonial -->
-    <section class="section roomy">
-      <div class="container">
-        <div class="featured-quote center" style="max-width:52rem;margin:0 auto">
-          <div class="stars" aria-label="5 star rating">★★★★★</div>
-          <blockquote>“Erin brings clarity, warmth, and strategy to every conversation. She makes complex ideas feel easy to act on — and meaningful to pursue.”</blockquote>
-          <strong>— Client feedback</strong>
-        </div>
-        <div class="center mt-2">
-          <a class="btn btn-ghost" href="pages/testimonials.html">Read more &amp; leave a testimonial</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="section roomy alt">
-      <div class="container">
-        <div class="cta-band">
-          <h2>Ready to build growth that lasts?</h2>
-          <p>Whether you’re scaling a business, adopting AI, or buying or selling a home on the Colorado River, let’s start with a conversation.</p>
-          <div class="hero-actions">
-            <a class="btn btn-accent" href="pages/contact.html">Get in touch</a>
-            <a class="btn btn-ghost" href="pages/portfolio.html">See the work</a>
-          </div>
-        </div>
-      </div>
-    </section>
+  <main class="wrap">
+    <div class="card">
+      <p class="eyebrow">Erin Uken</p>
+      <h1>Something thoughtful is&nbsp;on&nbsp;the&nbsp;way.</h1>
+      <p class="tagline">Strategy · Communication · Transformation</p>
+      <hr class="rule" />
+      <p class="lead">My website is being refreshed. Thank you for visiting while it&rsquo;s under construction.</p>
+      <p class="note">In the meantime, I&rsquo;d be glad to connect directly.</p>
+      <a class="cta" href="mailto:erin@riveracedesigns.com">Get in touch</a>
+      <nav class="social" aria-label="Elsewhere">
+        <a href="https://www.linkedin.com/in/erinuken/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://www.instagram.com/erinuken/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.facebook.com/erin.uken" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://erinuken.exprealty.com/" target="_blank" rel="noopener">Real Estate</a>
+      </nav>
+    </div>
   </main>
-
-  <div data-footer></div>
-
-  <script src="config.js"></script>
-  <script src="js/supabase.js"></script>
-  <script src="js/partials.js"></script>
-  <script src="js/main.js"></script>
+  <footer>&copy; <span id="y"></span> Erin Uken</footer>
+  <script>document.getElementById('y').textContent=new Date().getFullYear();</script>
 </body>
 </html>
