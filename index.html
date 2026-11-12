@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="Erin Uken — a refreshed website is on the way. Strategy, communication, and transformation across consulting, real estate, and coaching." />
+  <meta name="description" content="Erin Uken — a refreshed website is on the way. Strategy, communication, and transformation." />
   <title>Erin Uken — Coming Soon</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   <link rel="canonical" href="https://erinuken.com/" />
@@ -14,7 +14,7 @@
   <meta property="og:url" content="https://erinuken.com/" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;1,8..60,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
   <!-- Honest, minimal structured data so search engines and AI read the basics correctly. -->
   <script type="application/ld+json">
   {
@@ -23,82 +23,54 @@
     "@id": "https://erinuken.com/#erin",
     "name": "Erin Uken",
     "url": "https://erinuken.com/",
-    "description": "Erin Uken works across AI business consulting, real estate, and peer-to-peer coaching, with more than 20 years of experience spanning diverse industries. Her family's Colorado River roots in Arizona go back to the 1960s.",
-    "sameAs": [
-      "https://www.linkedin.com/in/erinuken/",
-      "https://www.instagram.com/erinuken/",
-      "https://www.facebook.com/erin.uken",
-      "https://www.tiktok.com/@erin.uken",
-      "https://x.com/Erin_Uken",
-      "https://erinuken.exprealty.com/"
-    ]
+    "description": "Erin Uken works across AI business consulting, real estate, and peer-to-peer coaching, with more than 20 years of experience spanning diverse industries. Her family's Colorado River roots in Arizona go back to the 1960s."
   }
   </script>
   <style>
     :root{
-      --bg-1:#241d18; --bg-2:#15100d;
-      --cream:#f4ece1; --muted:#c7b7a4;
-      --gold:#d4af7a; --gold-strong:#c9994f;
-      --line:rgba(244,236,225,.14);
+      --teal:#08b4b7; --teal-deep:#068f92; --teal-ink:#06565a;
+      --magenta:#e83e8c;
+      --ink:#14181b; --muted:#56636c;
+      --bg:#eef1f2; --gray:#f5f7f8;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0; color:var(--cream);
-      font-family:"Source Serif 4", Georgia, serif;
-      background:radial-gradient(1200px 700px at 50% -10%, #33261d 0%, var(--bg-1) 42%, var(--bg-2) 100%);
+      margin:0; color:var(--ink);
+      font-family:"Montserrat","Segoe UI",system-ui,sans-serif;
+      background:
+        radial-gradient(900px 540px at 50% -8%, rgba(8,180,183,.12) 0%, rgba(8,180,183,0) 60%),
+        linear-gradient(180deg, var(--gray) 0%, var(--bg) 100%);
       display:flex; flex-direction:column; min-height:100vh;
       -webkit-font-smoothing:antialiased;
     }
-    .wrap{
-      flex:1; display:flex; align-items:center; justify-content:center;
-      padding:3rem 1.25rem;
-    }
-    .card{ width:100%; max-width:620px; text-align:center }
+    .wrap{ flex:1; display:flex; align-items:center; justify-content:center; padding:3rem 1.25rem; }
+    .card{ width:100%; max-width:600px; text-align:center }
     .eyebrow{
-      font-family:"Montserrat",system-ui,sans-serif;
-      letter-spacing:.28em; text-transform:uppercase;
-      font-size:.72rem; font-weight:600; color:var(--gold);
-      margin:0 0 1.4rem;
+      letter-spacing:.3em; text-transform:uppercase;
+      font-size:.74rem; font-weight:700; color:var(--teal-deep);
+      margin:0 0 1.5rem;
     }
     h1{
-      font-family:"Montserrat",system-ui,sans-serif;
-      font-weight:800; letter-spacing:.01em;
-      font-size:clamp(2.3rem,7vw,3.4rem); line-height:1.05;
-      margin:0 0 .5rem;
+      font-weight:800; letter-spacing:-.01em;
+      font-size:clamp(2.1rem,6.4vw,3.2rem); line-height:1.08;
+      color:var(--ink); margin:0 0 1.1rem;
+    }
+    .rule{
+      width:64px; height:3px; border:0; border-radius:3px; margin:0 auto 1.6rem;
+      background:linear-gradient(90deg, var(--teal) 0 60%, var(--magenta) 60% 100%);
     }
     .tagline{
-      font-family:"Montserrat",system-ui,sans-serif;
       font-weight:500; letter-spacing:.14em; text-transform:uppercase;
-      font-size:clamp(.72rem,2.4vw,.86rem); color:var(--muted);
-      margin:0 0 2rem;
+      font-size:clamp(.74rem,2.3vw,.9rem); color:var(--muted);
+      margin:0 0 1.7rem;
     }
-    .rule{ width:56px; height:2px; background:var(--gold-strong); border:0; margin:0 auto 2rem; opacity:.9 }
-    .lead{
-      font-size:clamp(1.05rem,2.6vw,1.2rem); line-height:1.65;
-      color:var(--cream); margin:0 auto 1rem; max-width:34rem;
-    }
-    .note{ color:var(--muted); font-size:1rem; margin:0 auto 2.4rem; max-width:32rem }
-    .cta{
-      display:inline-block; font-family:"Montserrat",sans-serif; font-weight:600;
-      font-size:.95rem; letter-spacing:.02em;
-      color:#241d18; background:var(--gold);
-      padding:.85rem 1.6rem; border-radius:999px; text-decoration:none;
-      transition:transform .15s ease, background .15s ease;
-    }
-    .cta:hover{ background:var(--gold-strong); transform:translateY(-1px) }
-    .social{ margin:2.2rem 0 0; display:flex; gap:1.4rem; justify-content:center; flex-wrap:wrap }
-    .social a{
-      font-family:"Montserrat",sans-serif; font-weight:500; font-size:.82rem;
-      letter-spacing:.06em; text-transform:uppercase;
-      color:var(--muted); text-decoration:none; padding-bottom:2px;
-      border-bottom:1px solid transparent; transition:color .15s, border-color .15s;
-    }
-    .social a:hover{ color:var(--gold); border-color:var(--gold) }
+    .note{ color:var(--muted); font-size:1.02rem; line-height:1.6; margin:0 auto; max-width:30rem }
+    .note b{ color:var(--teal-ink); font-weight:600 }
     footer{
-      text-align:center; padding:1.6rem 1.25rem;
-      color:rgba(199,183,164,.6); font-family:"Montserrat",sans-serif;
-      font-size:.78rem; border-top:1px solid var(--line);
+      text-align:center; padding:1.5rem 1.25rem;
+      color:rgba(86,99,108,.7); font-size:.78rem; font-weight:500;
+      letter-spacing:.02em;
     }
   </style>
 </head>
@@ -107,17 +79,9 @@
     <div class="card">
       <p class="eyebrow">Erin Uken</p>
       <h1>Something thoughtful is&nbsp;on&nbsp;the&nbsp;way.</h1>
-      <p class="tagline">Strategy · Communication · Transformation</p>
       <hr class="rule" />
-      <p class="lead">My website is being refreshed. Thank you for visiting while it&rsquo;s under construction.</p>
-      <p class="note">In the meantime, I&rsquo;d be glad to connect directly.</p>
-      <a class="cta" href="mailto:erin@riveracedesigns.com">Get in touch</a>
-      <nav class="social" aria-label="Elsewhere">
-        <a href="https://www.linkedin.com/in/erinuken/" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="https://www.instagram.com/erinuken/" target="_blank" rel="noopener">Instagram</a>
-        <a href="https://www.facebook.com/erin.uken" target="_blank" rel="noopener">Facebook</a>
-        <a href="https://erinuken.exprealty.com/" target="_blank" rel="noopener">Real Estate</a>
-      </nav>
+      <p class="tagline">Strategy · Communication · Transformation</p>
+      <p class="note">My website is being refreshed. Thank you for visiting while it&rsquo;s <b>under construction</b> — please check back soon.</p>
     </div>
   </main>
   <footer>&copy; <span id="y"></span> Erin Uken</footer>
